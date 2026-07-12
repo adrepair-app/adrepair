@@ -1,0 +1,1470 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AD Repair — Réparez votre PC Windows avec l'IA. Diagnostic automatique, 7 pannes résolues.">
+<title>AD Repair — Dépannage PC par intelligence artificielle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#2563EB;--blue2:#1D4ED8;--blue-lt:#EFF6FF;
+  --cyan:#06B6D4;--green:#10B981;--amber:#F59E0B;--red:#EF4444;
+  --white:#fff;--dark:#020617;--dark2:#0F172A;--dark3:#1E293B;--dark4:#334155;
+  --dt:rgba(255,255,255,.06);--dt2:rgba(255,255,255,.1);
+  --font-d:'Space Grotesk',system-ui,sans-serif;
+  --font-b:'Inter',system-ui,sans-serif;
+  --font-m:'JetBrains Mono',monospace;
+  --r:8px;--r-lg:14px;--r-xl:20px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-b);color:#fff;background:var(--dark);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* â”€â”€ NAV â”€â”€ */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:1000;
+  height:64px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 max(24px,calc((100% - 1200px)/2));
+  background:rgba(2,6,23,.9);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--dt);transition:background .3s;
+}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo-mark{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--blue),#818CF8);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:12px;font-weight:800;color:#fff;letter-spacing:-.5px}
+.nav-logo-name{font-family:var(--font-d);font-size:16px;font-weight:700;color:#fff}
+
+/* Mega menu nav */
+.nav-links{display:flex;align-items:center;gap:4px;position:relative}
+.nav-item{position:relative}
+.nav-link{
+  display:flex;align-items:center;gap:5px;
+  padding:8px 14px;border-radius:var(--r);
+  font-size:14px;color:rgba(255,255,255,.6);text-decoration:none;
+  transition:all .15s;cursor:pointer;border:none;background:none;
+  font-family:var(--font-b);
+}
+.nav-link:hover,.nav-link.active{background:rgba(255,255,255,.06);color:#fff}
+.nav-link svg{transition:transform .2s}
+.nav-item:hover .nav-link svg{transform:rotate(180deg)}
+.nav-link.active svg{transform:rotate(180deg)}
+
+/* Dropdown mega menu */
+.nav-item{padding-bottom:12px;margin-bottom:-12px}
+.mega-menu{
+  position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(-8px);
+  margin-top:12px;
+  background:var(--dark2);border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;padding:8px;min-width:220px;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+  opacity:0;visibility:hidden;
+  transition:opacity .18s ease,transform .18s ease,visibility .18s;
+  z-index:100;
+}
+.mega-menu::before{
+  content:'';position:absolute;top:-12px;left:0;right:0;height:12px;
+}
+.nav-item:hover .mega-menu,
+.nav-item:focus-within .mega-menu,
+.mega-menu:hover{
+  opacity:1;visibility:visible;
+  transform:translateX(-50%) translateY(0);
+}
+.mega-item{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 12px;border-radius:var(--r);
+  text-decoration:none;color:rgba(255,255,255,.7);
+  font-size:13.5px;transition:all .12s;
+}
+.mega-item:hover{background:rgba(255,255,255,.06);color:#fff}
+.mega-item-ic{width:32px;height:32px;border-radius:7px;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.mega-item-txt .mega-title{font-weight:600;font-size:13px;color:#fff;margin-bottom:2px}
+.mega-item-txt .mega-sub{font-size:11px;color:rgba(255,255,255,.4)}
+.mega-divider{height:1px;background:var(--dt);margin:4px 0}
+
+/* Langue mega */
+.lang-mega{min-width:160px}
+.lang-option{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-radius:var(--r);
+  cursor:pointer;transition:all .12s;font-size:13.5px;
+  color:rgba(255,255,255,.7);border:none;background:none;
+  font-family:var(--font-b);width:100%;text-align:left;
+}
+.lang-option:hover{background:rgba(255,255,255,.06);color:#fff}
+.lang-option.active{background:rgba(37,99,235,.15);color:#93C5FD}
+.lang-flag{font-size:18px}
+.lang-name{font-weight:500}
+.lang-native{font-size:11px;color:rgba(255,255,255,.35)}
+
+.nav-cta{display:flex;align-items:center;gap:10px}
+.btn-ghost{padding:8px 18px;border-radius:var(--r);border:1px solid var(--dt2);background:none;font-size:13.5px;font-weight:500;color:rgba(255,255,255,.7);cursor:pointer;font-family:var(--font-b);text-decoration:none;transition:all .15s}
+.btn-ghost:hover{background:var(--dt2);color:#fff}
+.btn-primary{padding:8px 20px;border-radius:var(--r);background:var(--blue);border:none;font-size:13.5px;font-weight:600;color:#fff;cursor:pointer;font-family:var(--font-b);text-decoration:none;transition:all .15s;box-shadow:0 0 20px rgba(37,99,235,.4)}
+.btn-primary:hover{background:var(--blue2);transform:translateY(-1px);box-shadow:0 0 30px rgba(37,99,235,.6)}
+
+/* â”€â”€ HERO â”€â”€ */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px max(24px,calc((100% - 1100px)/2)) 80px;position:relative;overflow:hidden;text-align:center}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 800px 600px at 50% 0%,rgba(37,99,235,.15) 0%,transparent 70%),radial-gradient(ellipse 600px 400px at 80% 50%,rgba(6,182,212,.08) 0%,transparent 60%),radial-gradient(ellipse 500px 400px at 20% 80%,rgba(129,140,248,.08) 0%,transparent 60%)}
+.hero-grid{position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:32px 32px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%)}
+.hero-content{position:relative;z-index:1;max-width:800px}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:99px;background:rgba(37,99,235,.15);border:1px solid rgba(37,99,235,.3);font-size:12px;font-weight:600;color:#93C5FD;margin-bottom:28px}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);box-shadow:0 0 6px var(--blue)}
+.hero-title{font-family:var(--font-d);font-size:clamp(40px,7vw,80px);font-weight:800;line-height:1.05;letter-spacing:-.03em;margin-bottom:24px;color:#fff}
+.hero-title span{background:linear-gradient(135deg,#60A5FA 0%,#818CF8 50%,#34D399 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{font-size:clamp(16px,2vw,20px);color:rgba(255,255,255,.5);line-height:1.7;max-width:600px;margin:0 auto 40px}
+.hero-actions{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:64px}
+.btn-hero{padding:14px 28px;border-radius:var(--r-lg);background:var(--blue);border:none;font-size:15px;font-weight:600;color:#fff;cursor:pointer;font-family:var(--font-b);text-decoration:none;display:inline-flex;align-items:center;gap:9px;transition:all .2s;box-shadow:0 0 40px rgba(37,99,235,.5)}
+.btn-hero:hover{background:var(--blue2);transform:translateY(-2px);box-shadow:0 0 60px rgba(37,99,235,.7)}
+.btn-hero-ghost{padding:14px 28px;border-radius:var(--r-lg);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);font-size:15px;font-weight:500;color:rgba(255,255,255,.75);cursor:pointer;font-family:var(--font-b);text-decoration:none;display:inline-flex;align-items:center;gap:9px;transition:all .2s}
+.btn-hero-ghost:hover{background:rgba(255,255,255,.1);color:#fff}
+.hero-stats{display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap;padding-top:32px;border-top:1px solid var(--dt)}
+.stat{text-align:center}
+.stat-num{font-family:var(--font-d);font-size:32px;font-weight:800;color:#fff;line-height:1;margin-bottom:4px}
+.stat-num span{background:linear-gradient(135deg,#60A5FA,#818CF8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.stat-lbl{font-size:12px;color:rgba(255,255,255,.4);letter-spacing:.05em;text-transform:uppercase}
+
+/* Terminal */
+.terminal-wrap{position:relative;z-index:1;margin-top:80px;max-width:700px;margin-left:auto;margin-right:auto}
+.terminal{background:#0F172A;border:1px solid rgba(255,255,255,.08);border-radius:14px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.5)}
+.terminal-bar{display:flex;align-items:center;gap:8px;padding:12px 16px;background:#1E293B;border-bottom:1px solid rgba(255,255,255,.06)}
+.t-dot{width:12px;height:12px;border-radius:50%}
+.t-title{margin-left:8px;font-size:12px;color:rgba(255,255,255,.4);font-family:var(--font-m)}
+.terminal-body{padding:20px;font-family:var(--font-m);font-size:13px;line-height:1.9}
+.t-line{display:flex;gap:10px}
+.t-prompt{color:#64748B}.t-cmd{color:#93C5FD}.t-out{color:#94A3B8}
+.t-ok{color:#34D399}.t-warn{color:#FBBF24}.t-section{color:#818CF8;font-weight:500}
+.t-cursor{display:inline-block;width:8px;height:14px;background:var(--blue);border-radius:1px;animation:blink .8s infinite;vertical-align:middle}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* â”€â”€ SECTIONS â”€â”€ */
+section{padding:100px max(24px,calc((100% - 1200px)/2))}
+.section-eyebrow{font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px}
+.section-title{font-family:var(--font-d);font-size:clamp(28px,4vw,48px);font-weight:700;color:#fff;line-height:1.15;letter-spacing:-.02em;margin-bottom:16px}
+.section-sub{font-size:17px;color:rgba(255,255,255,.5);line-height:1.7;max-width:520px}
+
+/* â”€â”€ COMMENT â”€â”€ */
+.how{background:var(--dark2)}
+.how-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-top:60px}
+.how-steps{display:flex;flex-direction:column;gap:32px}
+.how-step{display:flex;gap:20px;opacity:.4;transition:opacity .3s}
+.how-step.active{opacity:1}
+.step-num{width:40px;height:40px;border-radius:10px;background:rgba(37,99,235,.15);border:1px solid rgba(37,99,235,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:var(--font-d);font-size:14px;font-weight:700;color:var(--blue)}
+.how-step.active .step-num{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 0 20px rgba(37,99,235,.5)}
+.step-title{font-size:16px;font-weight:600;color:#fff;margin-bottom:6px}
+.step-desc{font-size:14px;color:rgba(255,255,255,.5);line-height:1.7}
+.how-screen{background:var(--dark3);border:1px solid var(--dt2);border-radius:var(--r-xl);overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,.4)}
+.screen-bar{background:var(--dark2);padding:10px 14px;border-bottom:1px solid var(--dt);display:flex;align-items:center;gap:8px}
+.s-dot{width:10px;height:10px;border-radius:50%}
+.screen-content{padding:20px}
+.screen-metric{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);margin-bottom:8px;font-size:13px}
+.sm-lbl{color:rgba(255,255,255,.5)}.sm-val{font-weight:600;font-family:var(--font-m)}
+.sm-val.ok{color:var(--green)}.sm-val.warn{color:var(--amber)}.sm-val.bad{color:var(--red)}
+.prog-track{height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden;margin-top:8px}
+.prog-fill{height:100%;border-radius:3px;width:72%;background:linear-gradient(90deg,var(--blue),#818CF8);animation:prog 2s ease-in-out infinite alternate}
+@keyframes prog{from{width:30%}to{width:85%}}
+
+/* â”€â”€ PANNES â”€â”€ */
+.pannes{background:var(--dark)}
+.pannes-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:56px}
+.panne-card{background:var(--dark2);border:1px solid var(--dt);border-radius:var(--r-lg);padding:24px;transition:all .2s;position:relative;overflow:hidden}
+.panne-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--blue);transform:scaleX(0);transform-origin:left;transition:transform .25s}
+.panne-card:hover{background:var(--dark3);border-color:rgba(37,99,235,.3);transform:translateY(-3px);box-shadow:0 20px 40px rgba(0,0,0,.3)}
+.panne-card:hover::before{transform:scaleX(1)}
+.panne-icon{font-size:28px;margin-bottom:14px}
+.panne-title{font-family:var(--font-d);font-size:16px;font-weight:700;color:#fff;margin-bottom:8px}
+.panne-desc{font-size:13.5px;color:rgba(255,255,255,.45);line-height:1.65;margin-bottom:16px}
+.panne-footer{display:flex;align-items:center;justify-content:space-between}
+.panne-tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:99px}
+.tag-auto{background:rgba(16,185,129,.15);color:#34D399;border:1px solid rgba(16,185,129,.25)}
+.tag-semi{background:rgba(245,158,11,.12);color:#FBBF24;border:1px solid rgba(245,158,11,.2)}
+.panne-time{font-size:11px;color:rgba(255,255,255,.3)}
+
+/* â”€â”€ MÉDIAS â”€â”€ */
+.medias{background:var(--dark2)}
+.medias-tabs{display:flex;gap:8px;margin-top:40px;margin-bottom:32px;flex-wrap:wrap}
+.media-tab{padding:8px 18px;border-radius:99px;border:1px solid var(--dt2);background:none;font-size:13px;font-weight:500;color:rgba(255,255,255,.5);cursor:pointer;font-family:var(--font-b);transition:all .15s}
+.media-tab.active{background:var(--blue);border-color:var(--blue);color:#fff}
+.media-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.media-card{border-radius:var(--r-lg);overflow:hidden;background:var(--dark3);border:1px solid var(--dt);transition:all .2s;cursor:pointer}
+.media-card:hover{transform:translateY(-3px);box-shadow:0 20px 40px rgba(0,0,0,.4);border-color:rgba(37,99,235,.3)}
+.media-thumb{
+  height:160px;background:linear-gradient(135deg,var(--dark4),var(--dark3));
+  display:flex;align-items:center;justify-content:center;position:relative;
+}
+.media-play{width:52px;height:52px;border-radius:50%;background:rgba(37,99,235,.8);display:flex;align-items:center;justify-content:center;font-size:20px;transition:transform .2s}
+.media-card:hover .media-play{transform:scale(1.1)}
+.media-type{position:absolute;top:10px;right:10px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;background:rgba(0,0,0,.6)}
+.media-type.video{color:#60A5FA;border:1px solid rgba(96,165,250,.3)}
+.media-type.photo{color:#34D399;border:1px solid rgba(52,211,153,.3)}
+.media-info{padding:14px}
+.media-panne{font-size:10px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.media-title{font-size:14px;font-weight:600;color:#fff;margin-bottom:4px}
+.media-desc{font-size:12px;color:rgba(255,255,255,.4);line-height:1.5}
+
+/* Modal media */
+.media-modal{position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s}
+.media-modal.open{opacity:1;pointer-events:all}
+.modal-inner{background:var(--dark2);border-radius:var(--r-xl);padding:32px;max-width:600px;width:90%;border:1px solid var(--dt2);position:relative}
+.modal-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.08);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
+.modal-video{width:100%;aspect-ratio:16/9;background:var(--dark3);border-radius:var(--r-lg);display:flex;align-items:center;justify-content:center;margin-bottom:16px;border:1px solid var(--dt)}
+.modal-title{font-family:var(--font-d);font-size:20px;font-weight:700;color:#fff;margin-bottom:8px}
+.modal-desc{font-size:14px;color:rgba(255,255,255,.5);line-height:1.7}
+
+/* â”€â”€ TARIFS â”€â”€ */
+.tarifs{background:var(--dark)}
+.tarifs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px;max-width:1000px;margin-left:auto;margin-right:auto}
+.plan{background:var(--dark3);border:1px solid var(--dt);border-radius:var(--r-xl);padding:32px;position:relative;transition:transform .2s}
+.plan:hover{transform:translateY(-4px)}
+.plan.featured{background:linear-gradient(135deg,rgba(37,99,235,.2),rgba(129,140,248,.1));border-color:rgba(37,99,235,.5);box-shadow:0 0 60px rgba(37,99,235,.2)}
+.plan-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:11px;font-weight:700;padding:4px 14px;border-radius:99px;white-space:nowrap;box-shadow:0 0 20px rgba(37,99,235,.5)}
+.plan-name{font-family:var(--font-d);font-size:14px;font-weight:600;color:rgba(255,255,255,.6);margin-bottom:12px;text-transform:uppercase;letter-spacing:.08em}
+.plan-price{font-family:var(--font-d);font-size:44px;font-weight:800;color:#fff;line-height:1;margin-bottom:4px}
+.plan-price sup{font-size:20px;vertical-align:super}
+.plan-price span{font-size:16px;color:rgba(255,255,255,.4);font-weight:400}
+.plan-desc{font-size:13px;color:rgba(255,255,255,.4);margin-bottom:28px;line-height:1.6}
+.plan-features{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+.plan-features li{display:flex;align-items:center;gap:10px;font-size:13.5px;color:rgba(255,255,255,.7)}
+.plan-features li::before{content:'✔';color:var(--green);font-weight:700;flex-shrink:0;font-size:14px}
+.plan-features li.off{color:rgba(255,255,255,.25)}
+.plan-features li.off::before{content:'—';color:rgba(255,255,255,.2)}
+.btn-plan{width:100%;padding:12px;border-radius:var(--r-lg);font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-b);transition:all .15s;border:none}
+.btn-plan-free{background:var(--dark4);color:rgba(255,255,255,.7)}
+.btn-plan-free:hover{background:var(--dt2);color:#fff}
+.btn-plan-pro{background:var(--blue);color:#fff;box-shadow:0 0 20px rgba(37,99,235,.4)}
+.btn-plan-pro:hover{background:var(--blue2);box-shadow:0 0 30px rgba(37,99,235,.6)}
+.btn-plan-ent{background:rgba(255,255,255,.08);color:#fff;border:1px solid var(--dt2)}
+.btn-plan-ent:hover{background:rgba(255,255,255,.12)}
+
+/* â”€â”€ TEMOIGNAGES â”€â”€ */
+.temoignages{background:var(--dark2)}
+.temo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+.temo{background:var(--dark3);border:1px solid var(--dt);border-radius:var(--r-lg);padding:28px}
+.temo-stars{color:#FBBF24;font-size:14px;margin-bottom:14px;letter-spacing:2px}
+.temo-text{font-size:14px;color:rgba(255,255,255,.65);line-height:1.75;margin-bottom:20px;font-style:italic}
+.temo-author{display:flex;align-items:center;gap:12px}
+.temo-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;flex-shrink:0}
+.temo-name{font-size:13px;font-weight:600;color:#fff}
+.temo-role{font-size:12px;color:rgba(255,255,255,.35)}
+
+/* â”€â”€ FAQ â”€â”€ */
+.faq{background:var(--dark)}
+.faq-list{max-width:720px;margin:56px auto 0;display:flex;flex-direction:column;gap:4px}
+.faq-item{border-radius:var(--r-lg);overflow:hidden}
+.faq-q{width:100%;text-align:left;padding:18px 20px;background:var(--dark3);border:1px solid var(--dt);color:#fff;font-size:15px;font-weight:500;font-family:var(--font-b);cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .15s}
+.faq-q:hover{background:var(--dark4)}
+.faq-ic{font-size:18px;color:var(--blue);transition:transform .25s;flex-shrink:0}
+.faq-q.open .faq-ic{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease;background:rgba(255,255,255,.02);border:1px solid var(--dt);border-top:none}
+.faq-a.open{max-height:300px}
+.faq-a p{padding:16px 20px;font-size:14px;color:rgba(255,255,255,.55);line-height:1.75}
+.faq-a a{color:#60A5FA;text-decoration:none}
+.faq-a a:hover{text-decoration:underline}
+
+/* â”€â”€ CTA FINAL â”€â”€ */
+.cta-final{background:var(--dark2);padding:120px max(24px,calc((100% - 1200px)/2));text-align:center;position:relative;overflow:hidden}
+.cta-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(37,99,235,.2) 0%,transparent 70%);pointer-events:none}
+.cta-final h2{font-family:var(--font-d);font-size:clamp(32px,5vw,56px);font-weight:800;color:#fff;line-height:1.1;letter-spacing:-.02em;margin-bottom:20px;position:relative;z-index:1}
+.cta-final p{font-size:17px;color:rgba(255,255,255,.5);margin-bottom:40px;position:relative;z-index:1}
+
+/* â”€â”€ FOOTER â”€â”€ */
+footer{background:var(--dark3);border-top:1px solid var(--dt);padding:48px max(24px,calc((100% - 1200px)/2))}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+.footer-desc{font-size:13.5px;color:rgba(255,255,255,.4);line-height:1.75;max-width:260px;margin-top:14px}
+.footer-col h4{font-size:12px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.1em;margin-bottom:16px}
+.footer-col a{display:block;font-size:13.5px;color:rgba(255,255,255,.5);text-decoration:none;margin-bottom:10px;transition:color .15s}
+.footer-col a:hover{color:#fff}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--dt);font-size:12.5px;color:rgba(255,255,255,.3)}
+
+/* â”€â”€ RESPONSIVE â”€â”€ */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .how-grid,.tarifs-grid,.temo-grid,.footer-grid{grid-template-columns:1fr}
+  .hero-stats{gap:24px}
+}
+
+/* â”€â”€ ANIMATIONS â”€â”€ */
+.fade-up{opacity:0;transform:translateY(24px);transition:opacity .5s ease,transform .5s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="#" class="nav-logo">
+    <img src="https://raw.githubusercontent.com/adrepair-app/adrepair/main/ad-repair-logo.png" alt="AD Repair" style="height:32px;width:auto;object-fit:contain">
+    <span class="nav-logo-name">AD Repair</span>
+  </a>
+
+  <div class="nav-links">
+    <!-- Comment ça marche -->
+    <div class="nav-item">
+      <button class="nav-link" data-t="nav_how">
+        Comment ça marche
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="mega-menu">
+        <a href="#comment" class="mega-item">
+          <div class="mega-item-ic">🔍</div>
+          <div class="mega-item-txt"><div class="mega-title" data-t="mega_diag">Diagnostic en temps réel</div><div class="mega-sub" data-t="mega_diag_sub">CPU, RAM, disque — données réelles</div></div>
+        </a>
+        <a href="#comment" class="mega-item">
+          <div class="mega-item-ic">🤖</div>
+          <div class="mega-item-txt"><div class="mega-title" data-t="mega_ai">IA conversationnelle</div><div class="mega-sub" data-t="mega_ai_sub">L'IA explique et guide</div></div>
+        </a>
+        <a href="#comment" class="mega-item">
+          <div class="mega-item-ic">🔒</div>
+          <div class="mega-item-txt"><div class="mega-title" data-t="mega_safe">100% sécurisé</div><div class="mega-sub" data-t="mega_safe_sub">Point de restauration automatique</div></div>
+        </a>
+        <a href="#comment" class="mega-item">
+          <div class="mega-item-ic">📊</div>
+          <div class="mega-item-txt"><div class="mega-title" data-t="mega_result">Résultats mesurables</div><div class="mega-sub" data-t="mega_result_sub">Tableau Avant/Après</div></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Pannes -->
+    <div class="nav-item">
+      <button class="nav-link" data-t="nav_pannes">
+        Pannes
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="mega-menu" style="min-width:280px">
+        <a href="#pannes" class="mega-item"><div class="mega-item-ic">📉</div><div class="mega-item-txt"><div class="mega-title">PC lent</div><div class="mega-sub">RAM, démarrage, fichiers temp</div></div></a>
+        <a href="#pannes" class="mega-item"><div class="mega-item-ic">🛡️</div><div class="mega-item-txt"><div class="mega-title">Virus et malwares</div><div class="mega-sub">Scan, suppression, protection</div></div></a>
+        <a href="#pannes" class="mega-item"><div class="mega-item-ic">📶</div><div class="mega-item-txt"><div class="mega-title">Connexion internet</div><div class="mega-sub">DNS, Winsock, Speed Test</div></div></a>
+        <div class="mega-divider"></div>
+        <a href="#pannes" class="mega-item"><div class="mega-item-ic">🔄</div><div class="mega-item-txt"><div class="mega-title">Windows Update</div><div class="mega-sub">DISM, SFC, cache</div></div></a>
+        <a href="#pannes" class="mega-item"><div class="mega-item-ic">🖨️</div><div class="mega-item-txt"><div class="mega-title">Imprimante</div><div class="mega-sub">Spooler, pilotes, USB/Wi-Fi</div></div></a>
+        <a href="#pannes" class="mega-item"><div class="mega-item-ic">🔄</div><div class="mega-item-txt"><div class="mega-title">Plantages Office</div><div class="mega-sub">Word, Excel, Outlook</div></div></a>
+        <a href="#pannes" class="mega-item"><div class="mega-item-ic">☁️</div><div class="mega-item-txt"><div class="mega-title">Cloud bloqué</div><div class="mega-sub">OneDrive, Drive, Dropbox</div></div></a>
+      </div>
+    </div>
+
+    <!-- Tarifs -->
+    <div class="nav-item">
+      <button class="nav-link" data-t="nav_tarifs">
+        Tarifs
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="mega-menu" style="min-width:240px">
+        <a href="#tarifs" class="mega-item">
+          <div class="mega-item-ic">🆓</div>
+          <div class="mega-item-txt"><div class="mega-title">Gratuit — $0/mois</div><div class="mega-sub">1 réparation par mois</div></div>
+        </a>
+        <a href="#tarifs" class="mega-item" style="background:rgba(37,99,235,.08);border-radius:var(--r)">
+          <div class="mega-item-ic">⭐</div>
+          <div class="mega-item-txt"><div class="mega-title" style="color:#93C5FD">Essentiel — $9.99/mois</div><div class="mega-sub">Réparations illimitées</div></div>
+        </a>
+        <a href="#tarifs" class="mega-item">
+          <div class="mega-item-ic">🏆</div>
+          <div class="mega-item-txt"><div class="mega-title">Pro — $24.99/mois</div><div class="mega-sub">Jusqu'à 5 PC</div></div>
+        </a>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="nav-item">
+      <button class="nav-link" data-t="nav_faq">
+        FAQ
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="mega-menu">
+        <a href="#faq" class="mega-item"><div class="mega-item-ic">🔒</div><div class="mega-item-txt"><div class="mega-title" data-t="faq1_title">Est-ce sûr ?</div><div class="mega-sub" data-t="faq1_sub">Point de restauration automatique</div></div></a>
+        <a href="#faq" class="mega-item"><div class="mega-item-ic">🌐</div><div class="mega-item-txt"><div class="mega-title" data-t="faq2_title">Mes données ?</div><div class="mega-sub" data-t="faq2_sub">100% local sur votre PC</div></div></a>
+        <a href="#faq" class="mega-item"><div class="mega-item-ic">💻</div><div class="mega-item-txt"><div class="mega-title" data-t="faq3_title">Systèmes supportés ?</div><div class="mega-sub">Windows 10/11 64-bit</div></div></a>
+        <a href="#faq" class="mega-item"><div class="mega-item-ic">❓��</div><div class="mega-item-txt"><div class="mega-title" data-t="faq4_title">Toutes les questions</div><div class="mega-sub" data-t="faq4_sub">Voir la FAQ complète</div></div></a>
+        <div class="mega-divider"></div>
+        <a href="#" onclick="openContactModal(event)" class="mega-item"><div class="mega-item-ic">❓�</div><div class="mega-item-txt"><div class="mega-title" data-t="mega_contact">Nous contacter</div><div class="mega-sub" data-t="mega_contact_sub">Réponse sous 24-48h</div></div></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-cta">
+    <!-- Langue mega -->
+    <div class="nav-item">
+      <button class="nav-link" id="lang-btn">
+        <span id="lang-flag">🇫🇷</span>
+        <span id="lang-code">FR</span>
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="mega-menu lang-mega">
+        <button class="lang-option active" onclick="setLang('fr')">
+          <span class="lang-flag">🇫🇷</span>
+          <div><div class="lang-name">Français</div><div class="lang-native">Français</div></div>
+        </button>
+        <button class="lang-option" onclick="setLang('en')">
+          <span class="lang-flag">🇺🇸</span>
+          <div><div class="lang-name">English</div><div class="lang-native">English</div></div>
+        </button>
+        <button class="lang-option" onclick="setLang('es')">
+          <span class="lang-flag">🇪🇸</span>
+          <div><div class="lang-name">Español</div><div class="lang-native">Español</div></div>
+        </button>
+      </div>
+    </div>
+    
+    <a href="https://github.com/adrepair-app/adrepair/releases/download/v3.0.0/AD.Repair.Setup.3.0.0.exe" class="btn-primary" data-t="nav_download" target="_blank" download>Télécharger</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="hero-badge-dot"></span>
+      <span data-t="badge">Nouvelle version — AD Repair v3.0 disponible</span>
+    </div>
+    <h1 class="hero-title" data-t="hero_title">
+      Votre PC réparé<br>par <span>l'intelligence artificielle</span>
+    </h1>
+    <p class="hero-sub" data-t="hero_sub">
+      AD Repair diagnostique les vraies pannes de votre ordinateur, explique les causes, et répare automatiquement — et connecte un technicien à distance si nécessaire.
+    </p>
+    <div class="hero-actions">
+      <a href="#download" class="btn-hero" data-t="hero_dl">⬇ Télécharger gratuitement</a>
+      <a href="#comment" class="btn-hero-ghost" data-t="hero_how">Voir comment ça marche →</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num"><span>7</span></div><div class="stat-lbl" data-t="stat1">pannes résolues</div></div>
+      <div class="stat"><div class="stat-num"><span>≤20</span> min</div><div class="stat-lbl" data-t="stat2">durée maximale</div></div>
+      <div class="stat"><div class="stat-num"><span>100%</span></div><div class="stat-lbl" data-t="stat3">local — données sur votre PC</div></div>
+      <div class="stat"><div class="stat-num"><span>0</span></div><div class="stat-lbl" data-t="stat4">risque — restauration auto</div></div>
+    </div>
+  </div>
+  <div class="terminal-wrap">
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="t-dot" style="background:#FF5F57"></div>
+        <div class="t-dot" style="background:#FEBC2E"></div>
+        <div class="t-dot" style="background:#28C840"></div>
+        <span class="t-title">AD Repair — Agent v3.0 — Herby-PC</span>
+      </div>
+      <div class="terminal-body">
+        <div class="t-line"><span class="t-prompt">→</span><span class="t-section">Diagnostic PC lent en cours...</span></div>
+        <div class="t-line"><span class="t-out">CPU : 8.6% — Normale ✅</span></div>
+        <div class="t-line"><span class="t-warn">RAM : 87.9% — Critique 🔴</span></div>
+        <div class="t-line"><span class="t-warn">Disque C: : 75.3% — Attention 🟡</span></div>
+        <div class="t-line"><span class="t-warn">Programmes démarrage : 11 — Excessif 🟡</span></div>
+        <div class="t-line"><span class="t-ok">Antivirus : Actif ✅</span></div>
+        <br>
+        <div class="t-line"><span class="t-prompt">→</span><span class="t-section">Réparation autorisée par l'utilisateur...</span></div>
+        <div class="t-line"><span class="t-ok">✔ Fichiers temporaires supprimés (0.3 Go)</span></div>
+        <div class="t-line"><span class="t-ok">✔ 7 programmes désactivés au démarrage</span></div>
+        <div class="t-line"><span class="t-ok">✔ Mémoire virtuelle optimisée</span></div>
+        <div class="t-line"><span class="t-ok">✔ RAM : 87.9% → 66.1% ✅</span></div>
+        <br>
+        <div class="t-line"><span class="t-prompt">→</span><span class="t-ok">Terminé en 3m 12s <span class="t-cursor"></span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMENT CA MARCHE -->
+<section class="how" id="comment">
+  <div class="section-eyebrow" data-t="how_eyebrow">Processus</div>
+  <div class="section-title" data-t="how_title">Simple. Sûr. Efficace.</div>
+  <p class="section-sub" data-t="how_sub">AD Repair lit les vraies données de votre PC, identifie la cause réelle, et répare — votre accord est requis avant chaque action. Aucune décision ne sera prise sans votre confirmation totale.</p>
+  <div class="how-grid">
+    <div class="how-steps">
+      <div class="how-step active"><div class="step-num">1</div><div class="step-body"><div class="step-title" data-t="step1_title">Connexion en temps réel</div><div class="step-desc" data-t="step1_desc">L'agent lit votre CPU, RAM, disque, antivirus, réseau — les vraies données, pas des estimations.</div></div></div>
+      <div class="how-step active"><div class="step-num">2</div><div class="step-body"><div class="step-title" data-t="step2_title">Diagnostic précis par l'IA</div><div class="step-desc" data-t="step2_desc">L'IA identifie la cause réelle et explique en langage clair ce qui ne va pas et pourquoi.</div></div></div>
+      <div class="how-step active"><div class="step-num">3</div><div class="step-body"><div class="step-title" data-t="step3_title">Votre accord — obligatoire</div><div class="step-desc" data-t="step3_desc">Un point de restauration est créé automatiquement. Vous voyez exactement ce qui va être fait. Vous confirmez. L'IA agit. Aucune décision ne sera prise sans votre confirmation totale.</div></div></div>
+      <div class="how-step active"><div class="step-num">4</div><div class="step-body"><div class="step-title" data-t="step4_title">Résultats mesurables</div><div class="step-desc" data-t="step4_desc">Tableau Avant/Après avec les vraies métriques spécifiques à chaque panne.</div></div></div>
+    </div>
+    <div class="how-screen">
+      <div class="screen-bar">
+        <div class="s-dot" style="background:#FF5F57"></div>
+        <div class="s-dot" style="background:#FEBC2E"></div>
+        <div class="s-dot" style="background:#28C840"></div>
+      </div>
+      <div class="screen-content">
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px">🔍 Diagnostic — Herby-PC</div>
+        <div class="screen-metric"><span class="sm-lbl">CPU</span><span class="sm-val ok">8.6% ✅</span></div>
+        <div class="screen-metric"><span class="sm-lbl">RAM</span><span class="sm-val bad">87.9% 🔴</span></div>
+        <div class="screen-metric"><span class="sm-lbl">Disque C:</span><span class="sm-val warn">75.3% 🟡</span></div>
+        <div class="screen-metric"><span class="sm-lbl">Antivirus</span><span class="sm-val ok">Actif ✅</span></div>
+        <div style="background:rgba(37,99,235,.1);border:1px solid rgba(37,99,235,.2);border-radius:10px;padding:12px;margin-top:12px">
+          <div style="font-size:12px;color:rgba(255,255,255,.6);margin-bottom:6px;display:flex;justify-content:space-between"><span>Réparation en cours...</span><span style="color:var(--blue)">72%</span></div>
+          <div class="prog-track"><div class="prog-fill"></div></div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+          <div style="padding:10px;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);border-radius:8px;text-align:center"><div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:4px">RAM avant</div><div style="font-size:18px;font-weight:700;color:#EF4444;font-family:var(--font-d)">87.9%</div></div>
+          <div style="padding:10px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);border-radius:8px;text-align:center"><div style="font-size:11px;color:rgba(255,255,255,.4);margin-bottom:4px">RAM après</div><div style="font-size:18px;font-weight:700;color:#10B981;font-family:var(--font-d)">66.1% ✅</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PANNES -->
+<section class="pannes" id="pannes">
+  <div class="section-eyebrow" data-t="pannes_eyebrow">Couverture</div>
+  <div class="section-title" data-t="pannes_title">7 pannes. Toutes résolues automatiquement.</div>
+  <p class="section-sub" data-t="pannes_sub">Chaque panne a son propre module de diagnostic et de réparation — des scripts réels, pas des conseils génériques.</p>
+  <div class="pannes-grid">
+    <div class="panne-card fade-up"><div class="panne-icon">📉</div><div class="panne-title" data-t="p1_title">PC lent</div><div class="panne-desc" data-t="p1_desc">RAM saturée, trop de programmes au démarrage, fichiers temporaires accumulés, disque plein.</div><div class="panne-footer"><span class="panne-tag tag-auto">✔ Automatique</span><span class="panne-time">~3 min</span></div></div>
+    <div class="panne-card fade-up"><div class="panne-icon">🛡️</div><div class="panne-title" data-t="p2_title">Virus et malwares</div><div class="panne-desc" data-t="p2_desc">Scan Windows Defender, suppression des menaces, nettoyage des extensions de navigateur suspectes.</div><div class="panne-footer"><span class="panne-tag tag-auto">✔ Automatique</span><span class="panne-time">~8 min</span></div></div>
+    <div class="panne-card fade-up"><div class="panne-icon">📶</div><div class="panne-title" data-t="p3_title">Connexion internet</div><div class="panne-desc" data-t="p3_desc">DNS, Winsock, TCP/IP — diagnostic complet identique à ipconfig /all, avec test de vitesse intégré.</div><div class="panne-footer"><span class="panne-tag tag-auto">✔ Automatique</span><span class="panne-time">~2 min</span></div></div>
+    <div class="panne-card fade-up"><div class="panne-icon">🔄</div><div class="panne-title" data-t="p4_title">Windows Update bloqué</div><div class="panne-desc" data-t="p4_desc">Cache SoftwareDistribution, DISM /RestoreHealth, SFC /scannow — réparation complète des fichiers système.</div><div class="panne-footer"><span class="panne-tag tag-auto">✔ Automatique</span><span class="panne-time">~15 à 20 min</span></div></div>
+    <div class="panne-card fade-up"><div class="panne-icon">🖨️</div><div class="panne-title" data-t="p5_title">Imprimante et pilotes</div><div class="panne-desc" data-t="p5_desc">Détection physique vs virtuelle, Spooler, file d'attente, mise à jour des pilotes. USB et Wi-Fi.</div><div class="panne-footer"><span class="panne-tag tag-semi">Semi-automatique</span><span class="panne-time">~5 min</span></div></div>
+    <div class="panne-card fade-up"><div class="panne-icon">🔄</div><div class="panne-title" data-t="p6_title">Plantages Office</div><div class="panne-desc" data-t="p6_desc">Word, Excel, Outlook — compléments incompatibles, registre Resiliency, profil Outlook corrompu.</div><div class="panne-footer"><span class="panne-tag tag-auto">✔ Automatique</span><span class="panne-time">~5 min</span></div></div>
+    <div class="panne-card fade-up"><div class="panne-icon">☁️</div><div class="panne-title" data-t="p7_title">Cloud bloqué</div><div class="panne-desc" data-t="p7_desc">OneDrive, Google Drive, Dropbox — token expiré, fichiers en conflit, cache local corrompu.</div><div class="panne-footer"><span class="panne-tag tag-auto">✔ Automatique</span><span class="panne-time">~2 min</span></div></div>
+  </div>
+</section>
+
+<!-- MÉDIAS -->
+<section class="medias" id="medias">
+  <div class="section-eyebrow" data-t="media_eyebrow">Démonstrations</div>
+  <div class="section-title" data-t="media_title">Voyez AD Repair en action</div>
+  <p class="section-sub" data-t="media_sub">Photos et vidéos de vraies réparations effectuées sur de vrais ordinateurs.</p>
+
+  <div class="medias-tabs">
+    <button class="media-tab active" onclick="filterMedia('all')" data-t="media_all">Tout voir</button>
+    <button class="media-tab" onclick="filterMedia('video')" data-t="media_videos">Vidéos</button>
+    <button class="media-tab" onclick="filterMedia('photo')" data-t="media_photos">Photos</button>
+    <button class="media-tab" onclick="filterMedia('pc-lent')">📉 PC lent</button>
+    <button class="media-tab" onclick="filterMedia('connexion')">📶 Connexion</button>
+    <button class="media-tab" onclick="filterMedia('virus')">🛡️ Virus</button>
+    <button class="media-tab" onclick="filterMedia('update')">🔄 Update</button>
+    <button class="media-tab" onclick="filterMedia('office')">🔄 Office</button>
+  </div>
+
+  <div class="media-grid" id="media-grid">
+    <!-- Les cartes sont générées par JS -->
+  </div>
+</section>
+
+<!-- TARIFS -->
+<section class="tarifs" id="tarifs">
+  <div style="text-align:center">
+    <div class="section-eyebrow" data-t="tarifs_eyebrow">Tarifs</div>
+    <div class="section-title" data-t="tarifs_title">Simple et transparent</div>
+    <p class="section-sub" style="margin:0 auto" data-t="tarifs_sub">Commencez gratuitement. Passez au plan supérieur quand vous en avez besoin.</p>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:center;gap:14px;margin-top:32px;margin-bottom:40px">
+    <span id="toggle-monthly-lbl" style="font-size:14px;font-weight:600;color:#fff">Mensuel</span>
+    <div onclick="toggleBilling()" style="width:48px;height:26px;border-radius:99px;background:var(--blue);cursor:pointer;position:relative;transition:background .2s;flex-shrink:0" id="billing-toggle">
+      <div id="toggle-dot" style="position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s"></div>
+    </div>
+    <span id="toggle-yearly-lbl" style="font-size:14px;color:rgba(255,255,255,.5)">
+      Annuel <span style="font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;background:rgba(16,185,129,.15);color:#34D399;border:1px solid rgba(16,185,129,.25);margin-left:4px">-34%</span>
+    </span>
+  </div>
+<div class="tarifs-grid">
+    <div class="plan fade-up">
+      <div class="plan-name" data-t="plan1_name">Gratuit</div>
+      <div class="plan-price"><sup>$</sup>0<span data-t="per_month">/mois</span></div>
+      <div class="plan-desc" data-t="plan1_desc">Pour découvrir AD Repair et réparer les pannes occasionnelles.</div>
+      <ul class="plan-features">
+        <li data-t="plan1_f1">1 réparation par mois</li>
+        <li data-t="plan1_f2">7 pannes disponibles</li>
+        <li data-t="plan1_f3">Historique 30 jours</li>
+        <li data-t="plan1_f4">Support communauté</li>
+        <li class="off" data-t="plan1_f5">Speed Test</li>
+        <li class="off" data-t="plan1_f6">Multi-PC</li>
+        <li class="off" data-t="plan1_f7">Support prioritaire</li>
+      </ul>
+      <a href="#download" class="btn-plan btn-plan-free" style="display:block;text-align:center;text-decoration:none" data-t="plan1_btn">Télécharger gratuitement</a>
+    </div>
+    <div class="plan featured fade-up">
+      <div class="plan-badge" data-t="popular">Le plus populaire</div>
+      <div class="plan-name" data-t="plan2_name">Essentiel</div>
+      <div class="plan-price"><sup>$</sup>9<span>.99<span data-t="per_month">/mois</span></span></div>
+      <div class="plan-desc" data-t="plan2_desc">Pour garder votre PC en parfait état toute l'année.</div>
+      <ul class="plan-features">
+        <li data-t="plan2_f1">Réparations illimitées</li>
+        <li data-t="plan2_f2">7 pannes disponibles</li>
+        <li data-t="plan2_f3">Historique complet</li>
+        <li data-t="plan2_f4">Speed Test intégré</li>
+        <li data-t="plan2_f5">Alertes préventives</li>
+        <li data-t="plan2_f6">Support par email</li>
+        <li class="off" data-t="plan2_f7">Multi-PC</li>
+      </ul>
+      <a href="https://buy.stripe.com/eVq9AV2XHb8hcKeaCFdEs01" target="_blank" class="btn-plan btn-plan-pro" style="display:block;text-align:center;text-decoration:none" data-stripe="ess" data-t="plan2_btn">Commencer — $9.99/mois</a>
+    </div>
+    <div class="plan fade-up">
+      <div class="plan-name" data-t="plan3_name">Pro</div>
+      <div class="plan-price"><sup>$</sup>24<span>.99<span data-t="per_month">/mois</span></span></div>
+      <div class="plan-desc" data-t="plan3_desc">Pour les professionnels et familles avec plusieurs ordinateurs.</div>
+      <ul class="plan-features">
+        <li data-t="plan3_f1">Réparations illimitées</li>
+        <li data-t="plan3_f2">Jusqu'à 5 PC</li>
+        <li data-t="plan3_f3">Toutes les fonctionnalités</li>
+        <li data-t="plan3_f4">Speed Test illimité</li>
+        <li data-t="plan3_f5">Tickets technicien inclus</li>
+        <li data-t="plan3_f6">Support prioritaire 24h</li>
+        <li data-t="plan3_f7">Tableau de bord admin</li>
+      </ul>
+      <a href="https://buy.stripe.com/fZu7sN8i1gsBh0ufWZdEs03" target="_blank" class="btn-plan btn-plan-ent" style="display:block;text-align:center;text-decoration:none" data-stripe="pro" data-t="plan3_btn">Commencer — $24.99/mois</a>
+    </div>
+  </div>
+</section>
+
+<!-- TÉMOIGNAGES -->
+<section class="temoignages">
+  <div style="text-align:center">
+    <div class="section-eyebrow" data-t="temo_eyebrow">Témoignages</div>
+    <div class="section-title" data-t="temo_title">Ce que disent nos utilisateurs</div>
+  </div>
+  <div class="temo-grid">
+    <div class="temo fade-up"><div class="temo-stars">★★★★★</div><div class="temo-text">"AD Repair a résolu mon problème de PC lent en quelques minutes. Je n'avais plus à attendre un technicien — tout s'est fait automatiquement. Impressionnant !"</div><div class="temo-author"><div class="temo-av" style="background:var(--blue)">H</div><div><div class="temo-name">Herby D.</div><div class="temo-role">Utilisateur Plan Essentiel</div></div></div></div>
+    <div class="temo fade-up"><div class="temo-stars">★★★★★</div><div class="temo-text">"Mon ordinateur plantait tout le temps à cause d'un virus. AD Repair l'a détecté et supprimé en quelques secondes. Je recommande à tout le monde !"</div><div class="temo-author"><div class="temo-av" style="background:#7c3aed">A</div><div><div class="temo-name">Angela A.</div><div class="temo-role">Utilisatrice Plan Gratuit</div></div></div></div>
+    <div class="temo fade-up"><div class="temo-stars">★★★★★</div><div class="temo-text">"Simple, rapide et efficace. Le support technicien à distance est un vrai plus pour les cas complexes."</div><div class="temo-author"><div class="temo-av" style="background:var(--green)">M</div><div><div class="temo-name">Marc T.</div><div class="temo-role">Utilisateur Plan Pro</div></div></div></div>
+    <div class="temo fade-up"><div class="temo-stars">★★★★★</div><div class="temo-text" data-t="temo1">"Mon PC était tellement lent que je pensais devoir en acheter un nouveau. AD Repair a libéré 20% de RAM en 3 minutes. Incroyable."</div><div class="temo-author"><div class="temo-av" style="background:linear-gradient(135deg,#3B82F6,#8B5CF6)">M</div><div><div class="temo-name">Marie L.</div><div class="temo-role">Comptable, Montréal</div></div></div></div>
+    <div class="temo fade-up"><div class="temo-stars">★★★★★</div><div class="temo-text" data-t="temo2">"Windows Update bloqué depuis 3 semaines. AD Repair a réglé le problème en 15 minutes avec DISM et SFC automatiquement."</div><div class="temo-author"><div class="temo-av" style="background:linear-gradient(135deg,#10B981,#3B82F6)">J</div><div><div class="temo-name">Jean-Pierre R.</div><div class="temo-role">Retraité, Paris</div></div></div></div>
+    <div class="temo fade-up"><div class="temo-stars">★★★★★</div><div class="temo-text" data-t="temo3">"L'application m'a montré exactement pourquoi ma connexion était lente — DNS corrompus. Réparé en 2 minutes. Je recommande."</div><div class="temo-author"><div class="temo-av" style="background:linear-gradient(135deg,#F59E0B,#EF4444)">S</div><div><div class="temo-name">Sophie T.</div><div class="temo-role">Étudiante, Bruxelles</div></div></div></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+
+<section id="guide" style="background:var(--dark2);padding:80px 0">
+  <div class="container">
+    <div class="section-eyebrow">Installation</div>
+    <div class="section-title">Télécharger et installer en 4 étapes</div>
+    <p class="section-sub">Simple, rapide et sécurisé. Moins de 2 minutes.</p>
+    <div style="background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:12px;padding:16px 20px;margin-top:32px;display:flex;align-items:flex-start;gap:12px">
+      <span style="font-size:20px">⚠️</span>
+      <div>
+        <div style="font-size:13px;font-weight:600;color:#fbbf24;margin-bottom:4px">Note — Avertissement du navigateur</div>
+        <div style="font-size:12.5px;color:rgba(255,255,255,.6)">Chrome peut afficher un message de sécurité car l'app est nouvelle. C'est normal et 100% sûr. Suivez les étapes ci-dessous.</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:32px">
+      <div style="background:var(--dark3);border:1px solid var(--dt);border-radius:14px;padding:24px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700">1</div>
+          <div style="font-size:14px;font-weight:600;color:#fff">Cliquez Télécharger</div>
+        </div>
+        <div style="font-size:12.5px;color:rgba(255,255,255,.5)">Cliquez sur "Télécharger gratuitement". Le fichier <strong style="color:rgba(255,255,255,.8)">AD.Repair.Setup.3.0.0.exe</strong> se télécharge.</div>
+      </div>
+      <div style="background:var(--dark3);border:1px solid rgba(245,158,11,.4);border-radius:14px;padding:24px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="width:36px;height:36px;border-radius:50%;background:#d97706;color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700">2</div>
+          <div style="font-size:14px;font-weight:600;color:#fbbf24">Chrome affiche un avertissement</div>
+        </div>
+        <div style="background:rgba(0,0,0,.4);border-radius:8px;padding:10px;font-size:12px;color:rgba(255,255,255,.7);margin-bottom:10px">
+          ⚠ <em>AD.Repair.Setup.3.0.0.exe n'est pas fréquemment téléchargé</em>
+        </div>
+        <div style="font-size:12.5px;color:rgba(255,255,255,.6)">Cliquez sur les <strong style="color:#fff">3 points ⋯</strong> à côté du fichier</div>
+      </div>
+      <div style="background:var(--dark3);border:1px solid rgba(245,158,11,.4);border-radius:14px;padding:24px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="width:36px;height:36px;border-radius:50%;background:#d97706;color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700">3</div>
+          <div style="font-size:14px;font-weight:600;color:#fbbf24">Cliquez "Conserver"</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="background:rgba(0,0,0,.3);border-radius:6px;padding:8px 12px;font-size:12px;color:rgba(255,255,255,.7)"><span style="color:#60a5fa">1.</span> Cliquez <strong style="color:#fff">Conserver</strong></div>
+          <div style="background:rgba(0,0,0,.3);border-radius:6px;padding:8px 12px;font-size:12px;color:rgba(255,255,255,.7)"><span style="color:#60a5fa">2.</span> Cliquez la <strong style="color:#fff">petite flèche ▾</strong> à côté de Supprimer</div>
+          <div style="background:rgba(0,0,0,.3);border-radius:6px;padding:8px 12px;font-size:12px;color:rgba(255,255,255,.7)"><span style="color:#60a5fa">3.</span> Cliquez <strong style="color:#fff">Conserver quand même</strong></div>
+        </div>
+      </div>
+      <div style="background:var(--dark3);border:1px solid rgba(16,185,129,.4);border-radius:14px;padding:24px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+          <div style="width:36px;height:36px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700">4</div>
+          <div style="font-size:14px;font-weight:600;color:#34d399">Lancez l'installation</div>
+        </div>
+        <div style="font-size:12.5px;color:rgba(255,255,255,.5);margin-bottom:10px">Double-cliquez sur le fichier. Si Windows SmartScreen apparaît :</div>
+        <div style="background:rgba(0,0,0,.3);border-radius:6px;padding:8px 12px;font-size:12px;color:rgba(255,255,255,.7)">Cliquez <strong style="color:#fff">Informations complémentaires</strong> → <strong style="color:#fff">Exécuter quand même</strong></div>
+        <div style="font-size:12px;color:rgba(16,185,129,.8);margin-top:8px">✓ AD Repair s'installe en moins de 2 minutes</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div style="text-align:center">
+    <div class="section-eyebrow" data-t="faq_eyebrow">FAQ</div>
+    <div class="section-title" data-t="faq_title">Questions fréquentes</div>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span data-t="faq_q1">Est-ce que AD Repair est sûr ?</span><span class="faq-ic">+</span></button>
+      <div class="faq-a"><p data-t="faq_a1">Oui. AD Repair crée automatiquement un point de restauration Windows avant chaque réparation. Si quelque chose ne va pas, vous revenez en arrière en un clic. De plus, <strong>aucune action n'est effectuée sans votre confirmation explicite</strong>. Aucune décision ne sera prise sans votre confirmation totale.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span data-t="faq_q2">Mes données sont-elles envoyées sur internet ?</span><span class="faq-ic">+</span></button>
+      <div class="faq-a"><p data-t="faq_a2">Non. AD Repair fonctionne entièrement en local sur votre PC. Vos données système, votre historique et votre clé API restent sur votre ordinateur. Seules les conversations avec l'IA passent par les serveurs Anthropic, de façon chiffrée.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span data-t="faq_q3">Quels systèmes sont supportés ?</span><span class="faq-ic">+</span></button>
+      <div class="faq-a"><p data-t="faq_a3">AD Repair fonctionne sur <strong>Windows 10</strong> (64 bits) et <strong>Windows 11</strong>. Vous avez également besoin de <a href="https://www.python.org/downloads/" target="_blank" rel="noopener">Python 3.10+ (télécharger ici)</a> — l'installateur AD Repair s'en charge automatiquement lors de l'installation. Une version macOS est en développement.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span data-t="faq_q4">Ai-je besoin de connaissances techniques ?</span><span class="faq-ic">+</span></button>
+      <div class="faq-a"><p data-t="faq_a4">Non. AD Repair est conçu pour tout le monde. L'IA explique chaque problème en langage simple, vous montre exactement ce qui va être fait, et demande votre accord avant d'agir.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)"><span data-t="faq_q5">Puis-je annuler mon abonnement ?</span><span class="faq-ic">+</span></button>
+      <div class="faq-a"><p data-t="faq_a5">Oui, à tout moment. Aucune période d'engagement, aucun frais de résiliation. Votre plan gratuit reste disponible indéfiniment après annulation.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-final" id="download">
+  <div class="cta-glow"></div>
+  <h2 data-t="cta_title">Réparez votre PC dès aujourd'hui.</h2>
+  <p data-t="cta_sub">Téléchargement gratuit. Installation en 2 minutes. Première réparation en quelques minutes.</p>
+  <a href="https://github.com/adrepair-app/adrepair/releases/download/v3.0.0/AD.Repair.Setup.3.0.0.exe" class="btn-hero" style="font-size:16px;padding:16px 36px" data-t="cta_btn" target="_blank">⬇ Télécharger AD Repair — Gratuit</a>
+  <div style="margin-top:20px;font-size:13px;color:rgba(255,255,255,.3)" data-t="cta_info">Windows 10/11 · 64 bits · Version 3.0.0</div>
+</section>
+
+
+<!-- FOOTER -->
+
+<section style="background:var(--dark);padding:80px 0;border-top:1px solid rgba(255,255,255,.06)">
+  <div class="container">
+    <div class="section-eyebrow">Roadmap</div>
+    <div class="section-title">Bientôt disponible</div>
+    <p class="section-sub">Ces pannes sont déjà disponibles <strong style="color:var(--blue)">via connexion technicien à distance</strong> dans les plans Essentiel et Pro. L'IA prendra en charge ces réparations automatiquement très prochainement.</p>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:48px">
+      <div style="background:var(--dark2);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:20px"><div style="font-size:24px;margin-bottom:10px">🔋</div><div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:6px">Batterie et alimentation</div><div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:10px">Diagnostic usure batterie et problèmes alimentation.</div><span style="font-size:11px;font-weight:600;color:var(--blue);background:rgba(37,99,235,.15);padding:3px 10px;border-radius:99px;margin-right:6px">🔧 Via technicien</span><span style="font-size:11px;font-weight:600;color:var(--amber);background:rgba(245,158,11,.1);padding:3px 10px;border-radius:99px">✨ IA bientôt</span></div>
+      <div style="background:var(--dark2);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:20px"><div style="font-size:24px;margin-bottom:10px">🔊</div><div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:6px">Problèmes audio</div><div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:10px">Résolution problèmes de son et périphériques audio.</div><span style="font-size:11px;font-weight:600;color:var(--blue);background:rgba(37,99,235,.15);padding:3px 10px;border-radius:99px;margin-right:6px">🔧 Via technicien</span><span style="font-size:11px;font-weight:600;color:var(--amber);background:rgba(245,158,11,.1);padding:3px 10px;border-radius:99px">✨ IA bientôt</span></div>
+      <div style="background:var(--dark2);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:20px"><div style="font-size:24px;margin-bottom:10px">📶</div><div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:6px">WiFi et Bluetooth</div><div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:10px">Connexions WiFi instables et problèmes Bluetooth.</div><span style="font-size:11px;font-weight:600;color:var(--blue);background:rgba(37,99,235,.15);padding:3px 10px;border-radius:99px;margin-right:6px">🔧 Via technicien</span><span style="font-size:11px;font-weight:600;color:var(--amber);background:rgba(245,158,11,.1);padding:3px 10px;border-radius:99px">✨ IA bientôt</span></div>
+      <div style="background:var(--dark2);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:20px"><div style="font-size:24px;margin-bottom:10px">🖥️</div><div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:6px">Écran et affichage</div><div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:10px">Problèmes résolution et pilotes graphiques.</div><span style="font-size:11px;font-weight:600;color:var(--blue);background:rgba(37,99,235,.15);padding:3px 10px;border-radius:99px;margin-right:6px">🔧 Via technicien</span><span style="font-size:11px;font-weight:600;color:var(--amber);background:rgba(245,158,11,.1);padding:3px 10px;border-radius:99px">✨ IA bientôt</span></div>
+      <div style="background:var(--dark2);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:20px"><div style="font-size:24px;margin-bottom:10px">🔒</div><div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:6px">Sécurité et pare-feu</div><div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:10px">Audit sécurité et configuration pare-feu.</div><span style="font-size:11px;font-weight:600;color:var(--blue);background:rgba(37,99,235,.15);padding:3px 10px;border-radius:99px;margin-right:6px">🔧 Via technicien</span><span style="font-size:11px;font-weight:600;color:var(--amber);background:rgba(245,158,11,.1);padding:3px 10px;border-radius:99px">✨ IA bientôt</span></div>
+      <div style="background:var(--dark2);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:20px"><div style="font-size:24px;margin-bottom:10px">💾</div><div style="font-size:14px;font-weight:600;color:#fff;margin-bottom:6px">Récupération de données</div><div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:10px">Récupération fichiers supprimés et sauvegarde.</div><span style="font-size:11px;font-weight:600;color:var(--blue);background:rgba(37,99,235,.15);padding:3px 10px;border-radius:99px;margin-right:6px">🔧 Via technicien</span><span style="font-size:11px;font-weight:600;color:var(--amber);background:rgba(245,158,11,.1);padding:3px 10px;border-radius:99px">✨ IA bientôt</span></div>
+    </div>
+  </div>
+</section>
+<footer>
+  <div class="footer-grid">
+    <div>
+      <a href="#" class="nav-logo" style="text-decoration:none">
+        <img src="https://raw.githubusercontent.com/adrepair-app/adrepair/main/ad-repair-logo.png" alt="AD Repair" style="height:32px;width:auto;object-fit:contain">
+        <span class="nav-logo-name">AD Repair</span>
+      </a>
+      <p class="footer-desc" data-t="footer_desc">Dépannage informatique assisté par intelligence artificielle.</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-t="footer_product">Produit</h4>
+      <a href="#comment" data-t="footer_how">Comment ça marche</a>
+      <a href="#pannes" data-t="footer_pannes">Pannes résolues</a>
+      <a href="#tarifs" data-t="footer_tarifs">Tarifs</a>
+      <a href="https://github.com/adrepair-app/adrepair/releases/download/v3.0.0/AD.Repair.Setup.3.0.0.exe" data-t="footer_dl">Télécharger</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-t="footer_support">Support</h4>
+      <a href="#" onclick="openInfoModal('doc',event)" data-t="footer_doc">Documentation</a>
+      <a href="#" onclick="openInfoModal('guide',event)" data-t="footer_guide">Guide utilisateur</a>
+      <a href="#" onclick="openContactModal(event)" data-t="footer_ticket">Soumettre un ticket</a>
+      <a href="#" onclick="openContactModal(event)" data-t="footer_contact">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4 data-t="footer_legal">Légal</h4>
+      <a href="#" onclick="openInfoModal('terms',event)" data-t="footer_terms">Conditions d'utilisation</a>
+      <a href="#" onclick="openInfoModal('privacy',event)" data-t="footer_privacy">Politique de confidentialité</a>
+      <a href="#" onclick="openInfoModal('license',event)" data-t="footer_license">Licence</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span data-t="footer_copy">© 2026 AD Repair — Tous droits réservés.</span>
+    <span>adrepair.app</span>
+  </div>
+</footer>
+
+<!-- Modal Contact -->
+<div class="media-modal" id="contact-modal" onclick="closeContactModal(event)">
+  <div class="modal-inner" style="max-width:480px">
+    <button class="modal-close" onclick="closeContactModal()">✕</button>
+    <div class="modal-title" data-t="contact_title" style="margin-bottom:6px">Contactez-nous</div>
+    <div class="modal-desc" data-t="contact_sub" style="margin-bottom:24px">Une question, un problème, une suggestion ? Notre équipe vous répond sous 24 à 48 heures.</div>
+
+    <div id="contact-form">
+      <div style="margin-bottom:14px">
+        <label style="display:block;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px" data-t="contact_name">Nom</label>
+        <input type="text" id="contact-name" placeholder="Votre nom" style="width:100%;padding:11px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;font-size:13.5px;color:#fff;font-family:inherit;outline:none">
+      </div>
+      <div style="margin-bottom:14px">
+        <label style="display:block;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px" data-t="contact_email">Email</label>
+        <input type="email" id="contact-email" placeholder="vous@exemple.com" style="width:100%;padding:11px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;font-size:13.5px;color:#fff;font-family:inherit;outline:none">
+      </div>
+      <div style="margin-bottom:14px">
+        <label style="display:block;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px" data-t="contact_subject">Sujet</label>
+        <select id="contact-subject" style="width:100%;padding:11px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;font-size:13.5px;color:#fff;font-family:inherit;outline:none">
+          <option value="Question generale" data-t="contact_opt1">Question générale</option>
+          <option value="Probleme technique" data-t="contact_opt2">Problème technique</option>
+          <option value="Facturation" data-t="contact_opt3">Facturation</option>
+          <option value="Partenariat" data-t="contact_opt4">Partenariat</option>
+        </select>
+      </div>
+      <div style="margin-bottom:20px">
+        <label style="display:block;font-size:11px;font-weight:600;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px" data-t="contact_message">Message</label>
+        <textarea id="contact-message" rows="4" placeholder="Décrivez votre demande..." style="width:100%;padding:11px 14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:8px;font-size:13.5px;color:#fff;font-family:inherit;outline:none;resize:none"></textarea>
+      </div>
+      <button onclick="sendContactForm()" style="width:100%;padding:12px;background:var(--blue);border:none;border-radius:8px;font-size:14px;font-weight:600;color:#fff;cursor:pointer;font-family:inherit;box-shadow:0 0 20px rgba(37,99,235,.4)" data-t="contact_send">Envoyer le message</button>
+    </div>
+
+    <div id="contact-success" style="display:none;text-align:center;padding:20px 0">
+      <div style="font-size:48px;margin-bottom:16px">✅</div>
+      <div style="font-size:16px;font-weight:600;color:#fff;margin-bottom:8px" data-t="contact_sent_title">Message envoyé !</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.5)" data-t="contact_sent_sub">Nous vous répondrons sous 24 à 48 heures.</div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Info (Documentation, Guide, Legal) -->
+<div class="media-modal" id="info-modal" onclick="closeInfoModal(event)">
+  <div class="modal-inner" style="max-width:640px;max-height:80vh;overflow-y:auto">
+    <button class="modal-close" onclick="closeInfoModal()">✕</button>
+    <div id="info-content"></div>
+  </div>
+</div>
+
+<!-- Modal médias -->
+<div class="media-modal" id="media-modal" onclick="closeModal(event)">
+  <div class="modal-inner">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-video" id="modal-video">
+      <div style="text-align:center;color:rgba(255,255,255,.3)">
+        <div style="font-size:48px;margin-bottom:12px">🖥</div>
+        <div style="font-size:14px" data-t="video_placeholder">Vidéo de démonstration</div>
+        <div style="font-size:12px;margin-top:8px;opacity:.6" data-t="video_soon">Disponible prochainement</div>
+      </div>
+    </div>
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-desc" id="modal-desc"></div>
+  </div>
+</div>
+
+<script>
+// â”€â”€ DONNÉES MÉDIAS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const mediaData = [
+  {id:1, type:'video', cat:'pc-lent',  icon:'📉', panne:'PC lent',           title:'Libérer 20% de RAM en 3 minutes',          desc:'Démonstration complète du diagnostic et de la réparation d\'un PC avec RAM saturée à 87%.'},
+  {id:2, type:'photo', cat:'pc-lent',  icon:'📉', panne:'PC lent',           title:'Avant/Après : RAM 87% → 66%',               desc:'Capture du tableau de résultats après réparation d\'un PC lent.'},
+  {id:3, type:'video', cat:'connexion',icon:'📶', panne:'Connexion internet', title:'Réparer DNS et Winsock en 2 minutes',       desc:'Diagnostic réseau complet avec test de ping et réparation automatique.'},
+  {id:4, type:'photo', cat:'connexion',icon:'📶', panne:'Connexion internet', title:'Speed Test après réparation DNS',           desc:'Résultats du Speed Test après changement de DNS vers 8.8.8.8.'},
+  {id:5, type:'video', cat:'virus',    icon:'🛡️', panne:'Virus et malwares',  title:'Scan Defender et suppression menaces',     desc:'Scan complet Windows Defender avec suppression de 3 menaces détectées.'},
+  {id:6, type:'photo', cat:'virus',    icon:'🛡️', panne:'Virus et malwares',  title:'PC propre après scan antivirus',           desc:'Résultat : 0 menace active après réparation.'},
+  {id:7, type:'video', cat:'update',   icon:'🔄', panne:'Windows Update',     title:'DISM + SFC : réparation fichiers système', desc:'Réparation complète du cache Windows Update et des fichiers système corrompus.'},
+  {id:8, type:'photo', cat:'update',   icon:'🔄', panne:'Windows Update',     title:'Windows Update débloqué',                  desc:'Capture des mises à jour en cours après réparation du cache SoftwareDistribution.'},
+  {id:9, type:'video', cat:'office',   icon:'🔄', panne:'Plantages Office',   title:'Word ne plante plus après nettoyage',      desc:'Suppression des clés Resiliency et désactivation des compléments incompatibles.'},
+  {id:10,type:'photo', cat:'pc-lent',  icon:'📉', panne:'PC lent',           title:'Démarrage : 9 programmes → 3 programmes',  desc:'Optimisation du démarrage automatique — avant et après réparation.'},
+];
+
+// â”€â”€ RENDU MÉDIAS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function renderMedia(filter='all'){
+  const grid = document.getElementById('media-grid');
+  const filtered = filter==='all' ? mediaData :
+    mediaData.filter(m => m.cat===filter || m.type===filter);
+
+  grid.innerHTML = filtered.map(m=>`
+    <div class="media-card" onclick="openModal(${m.id})">
+      <div class="media-thumb" style="background:linear-gradient(135deg,#1E293B,#0F172A)">
+        <div style="font-size:40px;position:absolute;opacity:.3">${m.icon}</div>
+        <div class="media-play">${m.type==='video'?'▶':'🖼'}</div>
+        <div class="media-type ${m.type}">${m.type==='video'?'VIDÉO':'PHOTO'}</div>
+      </div>
+      <div class="media-info">
+        <div class="media-panne">${m.panne}</div>
+        <div class="media-title">${m.title}</div>
+        <div class="media-desc">${m.desc}</div>
+      </div>
+    </div>
+  `).join('');
+
+  // Réactiver animations
+  document.querySelectorAll('.media-card').forEach((el,i)=>{
+    el.style.opacity='0';el.style.transform='translateY(16px)';
+    setTimeout(()=>{el.style.transition='all .3s ease';el.style.opacity='1';el.style.transform='translateY(0)';},i*60);
+  });
+}
+
+function filterMedia(cat){
+  document.querySelectorAll('.media-tab').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+  renderMedia(cat);
+}
+
+function openModal(id){
+  const m = mediaData.find(x=>x.id===id);
+  if(!m)return;
+  document.getElementById('modal-title').textContent = m.title;
+  document.getElementById('modal-desc').textContent = m.desc;
+  document.getElementById('media-modal').classList.add('open');
+}
+
+function closeModal(e){
+  if(!e||e.target===document.getElementById('media-modal')){
+    document.getElementById('media-modal').classList.remove('open');
+  }
+}
+
+// â”€â”€ FAQ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function toggleFaq(btn){
+  const a = btn.nextElementSibling;
+  const isOpen = btn.classList.contains('open');
+  document.querySelectorAll('.faq-q').forEach(q=>{q.classList.remove('open');q.nextElementSibling.classList.remove('open');});
+  if(!isOpen){btn.classList.add('open');a.classList.add('open');}
+}
+
+// â”€â”€ NAV SCROLL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+window.addEventListener('scroll',()=>{
+  document.getElementById('main-nav').style.background =
+    window.scrollY>20?'rgba(2,6,23,.97)':'rgba(2,6,23,.9)';
+});
+
+// â”€â”€ ANIMATIONS SCROLL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const observer = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');}});
+},{threshold:0.1});
+document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
+
+// â”€â”€ TRADUCTIONS COMPLÃˆTES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const T = {
+  fr: {
+    nav_how:'Comment ça marche', nav_pannes:'Pannes', nav_tarifs:'Tarifs', nav_faq:'FAQ',
+    nav_login:'Se connecter', nav_download:'Télécharger',
+    mega_diag:'Diagnostic en temps réel', mega_diag_sub:'CPU, RAM, disque — données réelles',
+    mega_ai:'IA conversationnelle', mega_ai_sub:"L'IA explique et guide",
+    mega_safe:'100% sécurisé', mega_safe_sub:'Point de restauration automatique',
+    mega_result:'Résultats mesurables', mega_result_sub:'Tableau Avant/Après',
+    faq1_title:'Est-ce sûr ?', faq1_sub:'Point de restauration automatique',
+    faq2_title:'Mes données ?', faq2_sub:'100% local sur votre PC',
+    faq3_title:'Systèmes supportés ?', faq4_title:'Toutes les questions', faq4_sub:'Voir la FAQ complète', mega_contact:'Nous contacter', mega_contact_sub:'Réponse sous 24-48h',
+    badge:'Nouvelle version — AD Repair v3.0 disponible',
+    hero_title:"Votre PC réparé<br>par <span>l'intelligence artificielle</span>",
+    hero_sub:"AD Repair diagnostique les vraies pannes de votre ordinateur, explique les causes, et répare automatiquement — et connecte un technicien à distance si nécessaire.",
+    hero_dl:'⬇ Télécharger gratuitement', hero_how:'Voir comment ça marche →',
+    stat1:'pannes résolues', stat2:'durée maximale', stat3:'local — données sur votre PC', stat4:'risque — restauration auto',
+    how_eyebrow:'Processus', how_title:'Simple. Sûr. Efficace.',
+    how_sub:"AD Repair lit les vraies données de votre PC, identifie la cause réelle, et répare — votre accord est requis avant chaque action. Aucune décision ne sera prise sans votre confirmation totale.",
+    step1_title:'Connexion en temps réel', step1_desc:"L'agent lit votre CPU, RAM, disque, antivirus, réseau — les vraies données, pas des estimations.",
+    step2_title:'Diagnostic précis par l\'IA', step2_desc:"L'IA identifie la cause réelle et explique en langage clair ce qui ne va pas et pourquoi.",
+    step3_title:'Votre accord — obligatoire', step3_desc:"Un point de restauration est créé automatiquement. Vous voyez exactement ce qui va être fait. Vous confirmez. L'IA agit. Aucune décision ne sera prise sans votre confirmation totale.",
+    step4_title:'Résultats mesurables', step4_desc:'Tableau Avant/Après avec les vraies métriques spécifiques à chaque panne.',
+    pannes_eyebrow:'Couverture', pannes_title:'7 pannes. Toutes résolues automatiquement.',
+    pannes_sub:'Chaque panne a son propre module de diagnostic et de réparation — des scripts réels, pas des conseils génériques.',
+    p1_title:'PC lent', p1_desc:'RAM saturée, trop de programmes au démarrage, fichiers temporaires accumulés, disque plein.',
+    p2_title:'Virus et malwares', p2_desc:'Scan Windows Defender, suppression des menaces, nettoyage des extensions suspectes.',
+    p3_title:'Connexion internet', p3_desc:'DNS, Winsock, TCP/IP — diagnostic complet identique à ipconfig /all, avec test de vitesse intégré.',
+    p4_title:'Windows Update bloqué', p4_desc:'Cache SoftwareDistribution, DISM /RestoreHealth, SFC /scannow — réparation complète des fichiers système.',
+    p5_title:'Imprimante et pilotes', p5_desc:'Détection physique vs virtuelle, Spooler, file d\'attente, mise à jour des pilotes. USB et Wi-Fi.',
+    p6_title:'Plantages Office', p6_desc:'Word, Excel, Outlook — compléments incompatibles, registre Resiliency, profil Outlook corrompu.',
+    p7_title:'Cloud bloqué', p7_desc:'OneDrive, Google Drive, Dropbox — token expiré, fichiers en conflit, cache local corrompu.',
+    media_eyebrow:'Démonstrations', media_title:'Voyez AD Repair en action',
+    media_sub:'Photos et vidéos de vraies réparations effectuées sur de vrais ordinateurs.',
+    media_all:'Tout voir', media_videos:'Vidéos', media_photos:'Photos',
+    tarifs_eyebrow:'Tarifs', tarifs_title:'Simple et transparent',
+    tarifs_sub:'Commencez gratuitement. Passez au plan supérieur quand vous en avez besoin.',
+    per_month:'/mois', popular:'Le plus populaire',
+    plan1_name:'Gratuit', plan1_desc:'Pour découvrir AD Repair et réparer les pannes occasionnelles.',
+    plan1_f1:'1 réparation par mois', plan1_f2:'7 pannes disponibles', plan1_f3:'Historique 30 jours',
+    plan1_f4:'Support communauté', plan1_f5:'Speed Test', plan1_f6:'Multi-PC', plan1_f7:'Support prioritaire',
+    plan1_btn:'Télécharger gratuitement',
+    plan2_name:'Essentiel', plan2_desc:'Pour garder votre PC en parfait état toute l\'année.',
+    plan2_f1:'Réparations illimitées', plan2_f2:'7 pannes disponibles', plan2_f3:'Historique complet',
+    plan2_f4:'Speed Test intégré', plan2_f5:'Alertes préventives', plan2_f6:'Support par email', plan2_f7:'Multi-PC',
+    plan2_btn:'Commencer — $9.99/mois',
+    plan3_name:'Pro', plan3_desc:'Pour les professionnels et familles avec plusieurs ordinateurs.',
+    plan3_f1:'Réparations illimitées', plan3_f2:"Jusqu'à 5 PC", plan3_f3:'Toutes les fonctionnalités',
+    plan3_f4:'Speed Test illimité', plan3_f5:'Tickets technicien inclus', plan3_f6:'Support prioritaire 24h', plan3_f7:'Tableau de bord admin',
+    plan3_btn:'Commencer — $24.99/mois',
+    temo_eyebrow:'Témoignages', temo_title:'Ce que disent nos utilisateurs',
+    temo1:'"Mon PC était tellement lent que je pensais devoir en acheter un nouveau. AD Repair a libéré 20% de RAM en 3 minutes. Incroyable."',
+    temo2:'"Windows Update bloqué depuis 3 semaines. AD Repair a réglé le problème en 15 minutes avec DISM et SFC automatiquement."',
+    temo3:'"L\'application m\'a montré exactement pourquoi ma connexion était lente — DNS corrompus. Réparé en 2 minutes. Je recommande."',
+    faq_eyebrow:'FAQ', faq_title:'Questions fréquentes',
+    faq_q1:'Est-ce que AD Repair est sûr ?',
+    faq_a1:'Oui. AD Repair crée automatiquement un point de restauration Windows avant chaque réparation. Si quelque chose ne va pas, vous revenez en arrière en un clic. Aucune action n\'est effectuée sans votre confirmation explicite. Aucune décision ne sera prise sans votre confirmation totale.',
+    faq_q2:'Mes données sont-elles envoyées sur internet ?',
+    faq_a2:'Non. AD Repair fonctionne entièrement en local sur votre PC. Vos données système, votre historique et votre clé API restent sur votre ordinateur. Seules les conversations avec l\'IA passent par les serveurs Anthropic, de façon chiffrée.',
+    faq_q3:'Quels systèmes sont supportés ?',
+    faq_a3:'AD Repair fonctionne sur Windows 10 (64 bits) et Windows 11. Vous avez besoin de Python 3.10+. Téléchargez-le sur python.org/downloads — notre installateur s\'en charge automatiquement.',
+    faq_q4:'Ai-je besoin de connaissances techniques ?',
+    faq_a4:'Non. AD Repair est conçu pour tout le monde. L\'IA explique chaque problème en langage simple, vous montre exactement ce qui va être fait, et demande votre accord avant d\'agir.',
+    faq_q5:'Puis-je annuler mon abonnement ?',
+    faq_a5:'Oui, à tout moment. Aucune période d\'engagement, aucun frais de résiliation.',
+    cta_title:'Réparez votre PC dès aujourd\'hui.',
+    cta_sub:'Téléchargement gratuit. Installation en 2 minutes. Première réparation en quelques minutes.',
+    cta_btn:'⬇ Télécharger AD Repair — Gratuit',
+    cta_info:'Windows 10/11 · 64 bits · Version 3.0.0',
+    footer_desc:'Dépannage informatique assisté par intelligence artificielle.',
+    footer_product:'Produit', footer_how:'Comment ça marche', footer_pannes:'Pannes résolues',
+    footer_tarifs:'Tarifs', footer_dl:'Télécharger', footer_support:'Support',
+    footer_doc:'Documentation', footer_guide:'Guide utilisateur', footer_ticket:'Soumettre un ticket',
+    footer_contact:'Contact', footer_legal:'Légal', footer_terms:"Conditions d'utilisation",
+    footer_privacy:'Politique de confidentialité', footer_license:'Licence',
+    footer_copy:'© 2026 AD Repair — Tous droits réservés.',
+    video_placeholder:'Vidéo de démonstration', video_soon:'Disponible prochainement',
+    contact_title:'Contactez-nous', contact_sub:'Une question, un problème, une suggestion ? Notre équipe vous répond sous 24 à 48 heures.',
+    contact_name:'Nom', contact_email:'Email', contact_subject:'Sujet', contact_message:'Message',
+    contact_opt1:'Question générale', contact_opt2:'Problème technique', contact_opt3:'Facturation', contact_opt4:'Partenariat',
+    contact_send:'Envoyer le message', contact_sent_title:'Message envoyé !', contact_sent_sub:'Nous vous répondrons sous 24 à 48 heures.',
+  },
+  en:{
+    nav_how:'How it works', nav_pannes:'Issues', nav_tarifs:'Pricing', nav_faq:'FAQ',
+    nav_login:'Sign in', nav_download:'Download',
+    mega_diag:'Real-time diagnosis', mega_diag_sub:'CPU, RAM, disk — real data',
+    mega_ai:'Conversational AI', mega_ai_sub:'AI explains and guides',
+    mega_safe:'100% secure', mega_safe_sub:'Automatic restore point',
+    mega_result:'Measurable results', mega_result_sub:'Before/After comparison',
+    faq1_title:'Is it safe?', faq1_sub:'Automatic restore point',
+    faq2_title:'My data?', faq2_sub:'100% local on your PC',
+    faq3_title:'Supported systems?', faq4_title:'All questions', faq4_sub:'See full FAQ', mega_contact:'Contact us', mega_contact_sub:'Reply within 24-48h',
+    badge:'New version — AD Repair v3.0 available',
+    hero_title:'Your PC repaired<br>by <span>artificial intelligence</span>',
+    hero_sub:'AD Repair diagnoses real PC problems, explains the causes, and repairs automatically — no technician, no risk.',
+    hero_dl:'⬇ Download for free', hero_how:'See how it works →',
+    stat1:'issues resolved', stat2:'maximum duration', stat3:'local — data on your PC', stat4:'risk — auto restore',
+    how_eyebrow:'Process', how_title:'Simple. Safe. Effective.',
+    how_sub:'AD Repair reads your real PC data, identifies the true cause, and repairs — your approval is required before every action. No decision will be made without your full confirmation.',
+    step1_title:'Real-time connection', step1_desc:'The agent reads your CPU, RAM, disk, antivirus, network — real data, not estimates.',
+    step2_title:'Precise AI diagnosis', step2_desc:'AI identifies the true cause and explains in plain language what is wrong and why.',
+    step3_title:'Your approval — required', step3_desc:'A restore point is created automatically. You see exactly what will be done. You confirm. AI acts. No decision will be made without your full confirmation.',
+    step4_title:'Measurable results', step4_desc:'Before/After comparison with real metrics specific to each issue.',
+    pannes_eyebrow:'Coverage', pannes_title:'7 issues. All resolved automatically.',
+    pannes_sub:'Each issue has its own diagnostic and repair module — real scripts, not generic advice.',
+    p1_title:'Slow PC', p1_desc:'Saturated RAM, too many startup programs, accumulated temp files, full disk.',
+    p2_title:'Viruses and malware', p2_desc:'Windows Defender scan, threat removal, suspicious browser extension cleanup.',
+    p3_title:'Internet connection', p3_desc:'DNS, Winsock, TCP/IP — complete diagnosis like ipconfig /all, with integrated speed test.',
+    p4_title:'Windows Update stuck', p4_desc:'SoftwareDistribution cache, DISM /RestoreHealth, SFC /scannow — complete system file repair.',
+    p5_title:'Printer and drivers', p5_desc:'Physical vs virtual detection, Spooler, print queue, driver update. USB and Wi-Fi.',
+    p6_title:'Office crashes', p6_desc:'Word, Excel, Outlook — incompatible add-ins, Resiliency registry, corrupted Outlook profile.',
+    p7_title:'Cloud blocked', p7_desc:'OneDrive, Google Drive, Dropbox — expired token, conflicted files, corrupted local cache.',
+    media_eyebrow:'Demos', media_title:'See AD Repair in action',
+    media_sub:'Photos and videos of real repairs done on real computers.',
+    media_all:'View all', media_videos:'Videos', media_photos:'Photos',
+    tarifs_eyebrow:'Pricing', tarifs_title:'Simple and transparent',
+    tarifs_sub:'Start for free. Upgrade when you need it.',
+    per_month:'/month', popular:'Most popular',
+    plan1_name:'Free', plan1_desc:'To discover AD Repair and fix occasional issues.',
+    plan1_f1:'1 repair per month', plan1_f2:'7 issues available', plan1_f3:'30-day history',
+    plan1_f4:'Community support', plan1_f5:'Speed Test', plan1_f6:'Multi-PC', plan1_f7:'Priority support',
+    plan1_btn:'Download for free',
+    plan2_name:'Essential', plan2_desc:'To keep your PC in perfect condition all year.',
+    plan2_f1:'Unlimited repairs', plan2_f2:'7 issues available', plan2_f3:'Full history',
+    plan2_f4:'Integrated Speed Test', plan2_f5:'Preventive alerts', plan2_f6:'Email support', plan2_f7:'Multi-PC',
+    plan2_btn:'Start — $9.99/month',
+    plan3_name:'Pro', plan3_desc:'For professionals and families with multiple computers.',
+    plan3_f1:'Unlimited repairs', plan3_f2:'Up to 5 PCs', plan3_f3:'All features',
+    plan3_f4:'Unlimited Speed Test', plan3_f5:'Technician tickets included', plan3_f6:'Priority 24h support', plan3_f7:'Admin dashboard',
+    plan3_btn:'Start — $24.99/month',
+    temo_eyebrow:'Testimonials', temo_title:'What our users say',
+    temo1:'"My PC was so slow I thought I\'d have to buy a new one. AD Repair freed 20% RAM in 3 minutes. Incredible."',
+    temo2:'"Windows Update stuck for 3 weeks. AD Repair fixed it in 15 minutes with DISM and SFC automatically."',
+    temo3:'"The app showed me exactly why my connection was slow — corrupted DNS. Fixed in 2 minutes. I recommend it."',
+    faq_eyebrow:'FAQ', faq_title:'Frequently asked questions',
+    faq_q1:'Is AD Repair safe?',
+    faq_a1:'Yes. AD Repair automatically creates a Windows restore point before each repair. No action is performed without your explicit confirmation. No decision will be made without your full confirmation.',
+    faq_q2:'Is my data sent to the internet?',
+    faq_a2:'No. AD Repair runs entirely locally on your PC. Your system data, history, and API key stay on your computer. Only AI conversations go through Anthropic servers, encrypted.',
+    faq_q3:'What systems are supported?',
+    faq_a3:'AD Repair works on Windows 10 (64-bit) and Windows 11. You need Python 3.10+. Download it at python.org/downloads — our installer handles it automatically.',
+    faq_q4:'Do I need technical knowledge?',
+    faq_a4:'No. AD Repair is designed for everyone. AI explains each problem in plain language, shows you exactly what will be done, and asks your approval before acting.',
+    faq_q5:'Can I cancel my subscription?',
+    faq_a5:'Yes, at any time. No commitment period, no cancellation fees.',
+    cta_title:'Repair your PC today.',
+    cta_sub:'Free download. 2-minute installation. First repair in minutes.',
+    cta_btn:'⬇ Download AD Repair — Free',
+    cta_info:'Windows 10/11 · 64-bit · Version 3.0.0',
+    footer_desc:'AI-assisted computer troubleshooting.',
+    footer_product:'Product', footer_how:'How it works', footer_pannes:'Issues resolved',
+    footer_tarifs:'Pricing', footer_dl:'Download', footer_support:'Support',
+    footer_doc:'Documentation', footer_guide:'User guide', footer_ticket:'Submit a ticket',
+    footer_contact:'Contact', footer_legal:'Legal', footer_terms:'Terms of service',
+    footer_privacy:'Privacy policy', footer_license:'License',
+    footer_copy:'© 2026 AD Repair — All rights reserved.',
+    video_placeholder:'Demo video', video_soon:'Coming soon',
+    contact_title:'Contact us', contact_sub:'A question, a problem, a suggestion? Our team replies within 24 to 48 hours.',
+    contact_name:'Name', contact_email:'Email', contact_subject:'Subject', contact_message:'Message',
+    contact_opt1:'General question', contact_opt2:'Technical issue', contact_opt3:'Billing', contact_opt4:'Partnership',
+    contact_send:'Send message', contact_sent_title:'Message sent!', contact_sent_sub:'We will reply within 24 to 48 hours.',
+  },
+  es:{
+    nav_how:'Cómo funciona', nav_pannes:'Problemas', nav_tarifs:'Precios', nav_faq:'FAQ',
+    nav_login:'Iniciar sesión', nav_download:'Descargar',
+    mega_diag:'Diagnóstico en tiempo real', mega_diag_sub:'CPU, RAM, disco — datos reales',
+    mega_ai:'IA conversacional', mega_ai_sub:'La IA explica y guía',
+    mega_safe:'100% seguro', mega_safe_sub:'Punto de restauración automático',
+    mega_result:'Resultados medibles', mega_result_sub:'Comparación Antes/Después',
+    faq1_title:'Â¿Es seguro?', faq1_sub:'Punto de restauración automático',
+    faq2_title:'Â¿Mis datos?', faq2_sub:'100% local en su PC',
+    faq3_title:'Â¿Sistemas compatibles?', faq4_title:'Todas las preguntas', faq4_sub:'Ver FAQ completa', mega_contact:'Contáctenos', mega_contact_sub:'Respuesta en 24-48h',
+    badge:'Nueva versión — AD Repair v3.0 disponible',
+    hero_title:'Su PC reparado<br>por <span>inteligencia artificial</span>',
+    hero_sub:'AD Repair diagnostica los problemas reales de su computadora, explica las causas y repara automáticamente — sin técnico, sin riesgo.',
+    hero_dl:'⬇ Descargar gratis', hero_how:'Ver cómo funciona →',
+    stat1:'problemas resueltos', stat2:'duración máxima', stat3:'local — datos en su PC', stat4:'riesgo — restauración auto',
+    how_eyebrow:'Proceso', how_title:'Simple. Seguro. Eficaz.',
+    how_sub:'AD Repair lee los datos reales de su PC, identifica la causa real y repara — su aprobación es necesaria antes de cada acción. Ninguna decisión se tomará sin su confirmación total.',
+    step1_title:'Conexión en tiempo real', step1_desc:'El agente lee su CPU, RAM, disco, antivirus, red — datos reales, no estimaciones.',
+    step2_title:'Diagnóstico preciso con IA', step2_desc:'La IA identifica la causa real y explica en lenguaje claro qué está mal y por qué.',
+    step3_title:'Su aprobación — obligatoria', step3_desc:'Se crea un punto de restauración automáticamente. Usted ve exactamente lo que se hará. Usted confirma. La IA actúa. Ninguna decisión se tomará sin su confirmación total.',
+    step4_title:'Resultados medibles', step4_desc:'Tabla Antes/Después con métricas reales específicas a cada problema.',
+    pannes_eyebrow:'Cobertura', pannes_title:'7 problemas. Todos resueltos automáticamente.',
+    pannes_sub:'Cada problema tiene su propio módulo de diagnóstico y reparación — scripts reales, no consejos genéricos.',
+    p1_title:'PC lento', p1_desc:'RAM saturada, demasiados programas al inicio, archivos temporales acumulados, disco lleno.',
+    p2_title:'Virus y malware', p2_desc:'Análisis Windows Defender, eliminación de amenazas, limpieza de extensiones sospechosas.',
+    p3_title:'Conexión a internet', p3_desc:'DNS, Winsock, TCP/IP — diagnóstico completo como ipconfig /all, con prueba de velocidad integrada.',
+    p4_title:'Windows Update bloqueado', p4_desc:'Caché SoftwareDistribution, DISM /RestoreHealth, SFC /scannow — reparación completa de archivos del sistema.',
+    p5_title:'Impresora y controladores', p5_desc:'Detección física vs virtual, Spooler, cola de impresión, actualización de controladores. USB y Wi-Fi.',
+    p6_title:'Fallos de Office', p6_desc:'Word, Excel, Outlook — complementos incompatibles, registro Resiliency, perfil Outlook corrupto.',
+    p7_title:'Nube bloqueada', p7_desc:'OneDrive, Google Drive, Dropbox — token expirado, archivos en conflicto, caché local corrupto.',
+    media_eyebrow:'Demostraciones', media_title:'Vea AD Repair en acción',
+    media_sub:'Fotos y videos de reparaciones reales en computadoras reales.',
+    media_all:'Ver todo', media_videos:'Videos', media_photos:'Fotos',
+    tarifs_eyebrow:'Precios', tarifs_title:'Simple y transparente',
+    tarifs_sub:'Comience gratis. Actualice cuando lo necesite.',
+    per_month:'/mes', popular:'El más popular',
+    plan1_name:'Gratis', plan1_desc:'Para descubrir AD Repair y reparar problemas ocasionales.',
+    plan1_f1:'1 reparación por mes', plan1_f2:'7 problemas disponibles', plan1_f3:'Historial 30 días',
+    plan1_f4:'Soporte comunidad', plan1_f5:'Speed Test', plan1_f6:'Multi-PC', plan1_f7:'Soporte prioritario',
+    plan1_btn:'Descargar gratis',
+    plan2_name:'Esencial', plan2_desc:'Para mantener su PC en perfectas condiciones todo el año.',
+    plan2_f1:'Reparaciones ilimitadas', plan2_f2:'7 problemas disponibles', plan2_f3:'Historial completo',
+    plan2_f4:'Speed Test integrado', plan2_f5:'Alertas preventivas', plan2_f6:'Soporte por email', plan2_f7:'Multi-PC',
+    plan2_btn:'Comenzar — $9.99/mes',
+    plan3_name:'Pro', plan3_desc:'Para profesionales y familias con múltiples computadoras.',
+    plan3_f1:'Reparaciones ilimitadas', plan3_f2:'Hasta 5 PCs', plan3_f3:'Todas las funciones',
+    plan3_f4:'Speed Test ilimitado', plan3_f5:'Tickets técnico incluidos', plan3_f6:'Soporte prioritario 24h', plan3_f7:'Panel de administración',
+    plan3_btn:'Comenzar — $24.99/mes',
+    temo_eyebrow:'Testimonios', temo_title:'Lo que dicen nuestros usuarios',
+    temo1:'"Mi PC estaba tan lento que pensé que tendría que comprar uno nuevo. AD Repair liberó 20% de RAM en 3 minutos. Increíble."',
+    temo2:'"Windows Update bloqueado por 3 semanas. AD Repair lo solucionó en 15 minutos con DISM y SFC automáticamente."',
+    temo3:'"La aplicación me mostró exactamente por qué mi conexión era lenta — DNS corruptos. Reparado en 2 minutos. Lo recomiendo."',
+    faq_eyebrow:'FAQ', faq_title:'Preguntas frecuentes',
+    faq_q1:'Â¿Es AD Repair seguro?',
+    faq_a1:'Sí. AD Repair crea automáticamente un punto de restauración de Windows antes de cada reparación. Ninguna acción se realiza sin su confirmación explícita. Ninguna decisión se tomará sin su confirmación total.',
+    faq_q2:'Â¿Se envían mis datos a internet?',
+    faq_a2:'No. AD Repair funciona completamente de forma local en su PC. Sus datos del sistema, historial y clave API permanecen en su computadora.',
+    faq_q3:'Â¿Qué sistemas son compatibles?',
+    faq_a3:'AD Repair funciona en Windows 10 (64 bits) y Windows 11. Necesita Python 3.10+. Descárguelo en python.org/downloads — nuestro instalador lo hace automáticamente.',
+    faq_q4:'Â¿Necesito conocimientos técnicos?',
+    faq_a4:'No. AD Repair está diseñado para todos. La IA explica cada problema en lenguaje simple y solicita su aprobación antes de actuar.',
+    faq_q5:'Â¿Puedo cancelar mi suscripción?',
+    faq_a5:'Sí, en cualquier momento. Sin período de compromiso, sin cargos por cancelación.',
+    cta_title:'Repare su PC hoy.',
+    cta_sub:'Descarga gratuita. Instalación en 2 minutos. Primera reparación en minutos.',
+    cta_btn:'⬇ Descargar AD Repair — Gratis',
+    cta_info:'Windows 10/11 · 64 bits · Versión 3.0.0',
+    footer_desc:'Soporte informático asistido por inteligencia artificial.',
+    footer_product:'Producto', footer_how:'Cómo funciona', footer_pannes:'Problemas resueltos',
+    footer_tarifs:'Precios', footer_dl:'Descargar', footer_support:'Soporte',
+    footer_doc:'Documentación', footer_guide:'Guía del usuario', footer_ticket:'Enviar ticket',
+    footer_contact:'Contacto', footer_legal:'Legal', footer_terms:'Términos de uso',
+    footer_privacy:'Política de privacidad', footer_license:'Licencia',
+    footer_copy:'© 2026 AD Repair — Todos los derechos reservados.',
+    video_placeholder:'Video de demostración', video_soon:'Próximamente',
+    contact_title:'Contáctenos', contact_sub:'Â¿Una pregunta, un problema, una sugerencia? Nuestro equipo responde en 24 a 48 horas.',
+    contact_name:'Nombre', contact_email:'Email', contact_subject:'Asunto', contact_message:'Mensaje',
+    contact_opt1:'Pregunta general', contact_opt2:'Problema técnico', contact_opt3:'Facturación', contact_opt4:'Asociación',
+    contact_send:'Enviar mensaje', contact_sent_title:'Â¡Mensaje enviado!', contact_sent_sub:'Responderemos en 24 a 48 horas.',
+  }
+};
+
+let currentLang = 'fr';
+
+function setLang(lang){
+  currentLang = lang;
+  const t = T[lang];
+  const flags = {fr:'🇫🇷',en:'🇺🇸',es:'🇪🇸'};
+  const codes = {fr:'FR',en:'EN',es:'ES'};
+
+  // Update lang button
+  document.getElementById('lang-flag').textContent = flags[lang];
+  document.getElementById('lang-code').textContent = codes[lang];
+
+  // Update all active states
+  document.querySelectorAll('.lang-option').forEach(o=>o.classList.remove('active'));
+  document.querySelectorAll(`.lang-option`).forEach(o=>{
+    if(o.getAttribute('onclick')===`setLang('${lang}')`) o.classList.add('active');
+  });
+
+  // Translate all elements
+  document.querySelectorAll('[data-t]').forEach(el=>{
+    const key = el.getAttribute('data-t');
+    if(t[key]!==undefined){
+      if(key==='hero_title') el.innerHTML = t[key];
+      else el.textContent = t[key];
+    }
+  });
+
+  // Update HTML lang
+  document.documentElement.lang = lang;
+
+  // Re-render media with translated tabs
+  renderMedia('all');
+}
+
+// â”€â”€ INFO MODAL (Documentation, Guide, Legal) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+const infoContent = {
+  fr: {
+    doc: {
+      title: 'Documentation',
+      body: `
+        <h3 style="font-size:18px;font-weight:700;color:#fff;margin:20px 0 10px">Installation</h3>
+        <p style="color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:12px">Téléchargez AD Repair, lancez l'installateur et suivez l'assistant. Python 3.10+ est installé automatiquement si nécessaire.</p>
+        <h3 style="font-size:18px;font-weight:700;color:#fff;margin:20px 0 10px">Premier lancement</h3>
+        <p style="color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:12px">Créez votre compte, entrez votre clé API Anthropic (obtenue gratuitement sur console.anthropic.com), et l'application se connecte automatiquement à votre PC.</p>
+        <h3 style="font-size:18px;font-weight:700;color:#fff;margin:20px 0 10px">Les 7 modules de réparation</h3>
+        <p style="color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:12px">Chaque panne (PC lent, virus, connexion, etc.) a son propre module de diagnostic Python qui lit les données réelles de votre système avant toute action.</p>
+        <h3 style="font-size:18px;font-weight:700;color:#fff;margin:20px 0 10px">Sécurité</h3>
+        <p style="color:rgba(255,255,255,.6);line-height:1.8">Un point de restauration Windows est créé automatiquement avant chaque réparation. Aucune action n'est exécutée sans votre confirmation explicite.</p>
+      `
+    },
+    guide: {
+      title: 'Guide utilisateur',
+      body: `
+        <p style="color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:16px">Un ordinateur bien entretenu dure plus longtemps et travaille plus vite. Voici nos conseils essentiels :</p>
+        <ul style="color:rgba(255,255,255,.6);line-height:2;padding-left:20px;margin-bottom:16px">
+          <li>Redémarrez votre PC au moins une fois par semaine</li>
+          <li>Gardez toujours au moins 15 Go libres sur le disque C:</li>
+          <li>Ne désactivez jamais Windows Defender</li>
+          <li>Faites un diagnostic AD Repair une fois par mois</li>
+          <li>Sauvegardez vos données importantes dans le cloud</li>
+          <li>N'ignorez jamais une alerte rouge dans Mon PC</li>
+          <li>Mettez à jour Windows dès qu'une mise à jour est disponible</li>
+        </ul>
+        <p style="color:rgba(255,255,255,.6);line-height:1.8">Le guide complet avec les 7 fiches détaillées par panne est disponible directement dans l'application, section Guide.</p>
+      `
+    },
+    terms: {
+      title: "Conditions d'utilisation",
+      body: `
+        <p style="color:rgba(255,255,255,.5);font-size:12px;margin-bottom:16px">Dernière mise à jour : 28 juin 2026</p>
+        <p style="color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:14px"><strong style="color:#fff">1. Acceptation des conditions</strong><br>En utilisant AD Repair, vous acceptez les présentes conditions d'utilisation.</p>
+        <p style="color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:14px"><strong style="color:#fff">2. Licence d'utilisation</strong><br>AD Repair vous accorde une licence personnelle, non exclusive et non transférable.</p>
+        <p style="color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:14px"><strong style="color:#fff">3. Limitation de responsabilité</strong><br>AD Repair est fourni "tel quel". Un point de restauration est créé automatiquement avant chaque réparation pour protéger vos données.</p>
+        <p style="color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:14px"><strong style="color:#fff">4. Résiliation</strong><br>Vous pouvez annuler votre abonnement à tout moment, sans frais.</p>
+        <p style="color:rgba(255,255,255,.6);line-height:1.8"><strong style="color:#fff">5. Contact</strong><br>Pour toute question, utilisez le formulaire de contact du site.</p>
+      `
+    },
+    privacy: {
+      title: 'Politique de confidentialité',
+      body: `
+        <p style="color:rgba(255,255,255,.5);font-size:12px;margin-bottom:16px">Dernière mise à jour : 28 juin 2026</p>
+        <p style="color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:14px"><strong style="color:#fff">Vos données restent locales</strong><br>AD Repair fonctionne entièrement en local sur votre PC. Vos données système, votre historique de réparations et votre clé API restent stockés uniquement sur votre ordinateur.</p>
+        <p style="color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:14px"><strong style="color:#fff">Communication avec l'IA</strong><br>Seules vos conversations avec l'assistant IA sont envoyées de façon chiffrée aux serveurs Anthropic pour générer les réponses. Aucune autre donnée n'est transmise.</p>
+        <p style="color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:14px"><strong style="color:#fff">Formulaire de contact</strong><br>Les informations que vous soumettez via notre formulaire de contact (nom, email, message) sont utilisées uniquement pour vous répondre.</p>
+        <p style="color:rgba(255,255,255,.6);line-height:1.8"><strong style="color:#fff">Aucune vente de données</strong><br>Nous ne vendons, ne louons et ne partageons jamais vos données avec des tiers à des fins commerciales.</p>
+      `
+    },
+    license: {
+      title: 'Licence',
+      body: `
+        <p style="color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:14px">AD Repair est distribué sous licence propriétaire. Copyright © 2026 AD Repair. Tous droits réservés.</p>
+        <p style="color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:14px"><strong style="color:#fff">Vous ne pouvez pas :</strong></p>
+        <ul style="color:rgba(255,255,255,.6);line-height:1.9;padding-left:20px;margin-bottom:14px">
+          <li>Copier, modifier ou redistribuer ce logiciel sans autorisation</li>
+          <li>Rétro-ingénier ou décompiler le code source</li>
+          <li>Revendre ou sous-licencier ce logiciel</li>
+        </ul>
+        <p style="color:rgba(255,255,255,.6);line-height:1.8">L'utilisation d'AD Repair est soumise à votre plan d'abonnement actif (Gratuit, Essentiel ou Pro).</p>
+      `
+    }
+  },
+  en: {
+    doc: { title:'Documentation', body:`<p style="color:rgba(255,255,255,.6);line-height:1.8">Full documentation available soon. Contact us for assistance.</p>` },
+    guide: { title:'User guide', body:`<p style="color:rgba(255,255,255,.6);line-height:1.8">The complete guide is available directly inside the application, Guide section.</p>` },
+    terms: { title:'Terms of service', body:`<p style="color:rgba(255,255,255,.6);line-height:1.8">By using AD Repair, you accept these terms of service. A restore point is created automatically before each repair to protect your data.</p>` },
+    privacy: { title:'Privacy policy', body:`<p style="color:rgba(255,255,255,.6);line-height:1.8">AD Repair runs entirely locally on your PC. Your data stays on your computer. Only AI conversations are sent encrypted to Anthropic servers.</p>` },
+    license: { title:'License', body:`<p style="color:rgba(255,255,255,.6);line-height:1.8">AD Repair is distributed under proprietary license. Copyright © 2026 AD Repair. All rights reserved.</p>` }
+  },
+  es: {
+    doc: { title:'Documentación', body:`<p style="color:rgba(255,255,255,.6);line-height:1.8">Documentación completa disponible próximamente. Contáctenos para asistencia.</p>` },
+    guide: { title:'Guía del usuario', body:`<p style="color:rgba(255,255,255,.6);line-height:1.8">La guía completa está disponible directamente en la aplicación, sección Guía.</p>` },
+    terms: { title:'Términos de uso', body:`<p style="color:rgba(255,255,255,.6);line-height:1.8">Al usar AD Repair, usted acepta estos términos de uso. Se crea un punto de restauración automáticamente antes de cada reparación.</p>` },
+    privacy: { title:'Política de privacidad', body:`<p style="color:rgba(255,255,255,.6);line-height:1.8">AD Repair funciona completamente de forma local en su PC. Sus datos permanecen en su computadora.</p>` },
+    license: { title:'Licencia', body:`<p style="color:rgba(255,255,255,.6);line-height:1.8">AD Repair se distribuye bajo licencia propietaria. Copyright © 2026 AD Repair. Todos los derechos reservados.</p>` }
+  }
+};
+
+function openInfoModal(key, e){
+  if(e) e.preventDefault();
+  var lang = infoContent[currentLang] ? currentLang : 'fr';
+  var data = infoContent[lang][key];
+  if(!data) return;
+  document.getElementById('info-content').innerHTML =
+    '<div class="modal-title" style="margin-bottom:4px">'+data.title+'</div>' + data.body;
+  document.getElementById('info-modal').classList.add('open');
+}
+
+function closeInfoModal(e){
+  if(!e || e.target === document.getElementById('info-modal') || e.target.classList.contains('modal-close')){
+    document.getElementById('info-modal').classList.remove('open');
+  }
+}
+
+// â”€â”€ CONTACT FORM â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function openContactModal(e){
+  if(e) e.preventDefault();
+  document.getElementById('contact-modal').classList.add('open');
+  document.getElementById('contact-form').style.display = 'block';
+  document.getElementById('contact-success').style.display = 'none';
+}
+
+function closeContactModal(e){
+  if(!e || e.target === document.getElementById('contact-modal') || e.target.classList.contains('modal-close')){
+    document.getElementById('contact-modal').classList.remove('open');
+  }
+}
+
+const FORMSPREE_URL = 'https://formspree.io/f/mrewabkz';
+
+async function sendContactForm(){
+  var name = document.getElementById('contact-name').value.trim();
+  var email = document.getElementById('contact-email').value.trim();
+  var message = document.getElementById('contact-message').value.trim();
+  var subject = document.getElementById('contact-subject').value;
+
+  if(!name || !email || !message){
+    alert(currentLang==='fr' ? 'Veuillez remplir tous les champs.' : currentLang==='es' ? 'Por favor complete todos los campos.' : 'Please fill in all fields.');
+    return;
+  }
+  if(!email.includes('@')){
+    alert(currentLang==='fr' ? 'Email invalide.' : currentLang==='es' ? 'Email inválido.' : 'Invalid email.');
+    return;
+  }
+
+  var sendBtn = document.querySelector('#contact-form button');
+  var originalText = sendBtn.textContent;
+  sendBtn.textContent = currentLang==='fr' ? 'Envoi en cours...' : currentLang==='es' ? 'Enviando...' : 'Sending...';
+  sendBtn.disabled = true;
+
+  try {
+    var formData = new FormData();
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('sujet_demande', subject);
+    formData.append('message', message);
+    formData.append('_subject', 'AD Repair - Nouveau message : ' + subject);
+    formData.append('language', currentLang);
+
+    var response = await fetch(FORMSPREE_URL, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: formData
+    });
+
+    var data = await response.json().catch(function(){ return {}; });
+    console.log('Formspree response:', response.status, data);
+
+    if(response.ok){
+      document.getElementById('contact-form').style.display = 'none';
+      document.getElementById('contact-success').style.display = 'block';
+      setTimeout(function(){
+        document.getElementById('contact-name').value = '';
+        document.getElementById('contact-email').value = '';
+        document.getElementById('contact-message').value = '';
+        sendBtn.textContent = originalText;
+        sendBtn.disabled = false;
+      }, 300);
+    } else {
+      var errMsg = (data && data.errors && data.errors[0] && data.errors[0].message) || ('HTTP ' + response.status);
+      throw new Error(errMsg);
+    }
+  } catch(err) {
+    console.error('Erreur Formspree:', err);
+    alert((currentLang==='fr' ? 'Erreur lors de l\'envoi : ' :
+          currentLang==='es' ? 'Error al enviar: ' :
+          'Error sending message: ') + err.message);
+    sendBtn.textContent = originalText;
+    sendBtn.disabled = false;
+  }
+}
+
+// â”€â”€ TOGGLE MENSUEL / ANNUEL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+var isYearly = false;
+var stripeLinks = {
+  ess: {
+    monthly: 'https://buy.stripe.com/eVq9AV2XHb8hcKeaCFdEs01',
+    yearly:  'https://buy.stripe.com/28EdRb41L6S18tY6mpdEs02'
+  },
+  pro: {
+    monthly: 'https://buy.stripe.com/fZu7sN8i1gsBh0ufWZdEs03',
+    yearly:  'https://buy.stripe.com/7sY8wR7dX7W539EaCFdEs04'
+  }
+};
+
+var planPrices = {
+  fr: { ess_m:'Commencer — $9.99/mois', ess_y:'Commencer — $79/an', pro_m:'Commencer — $24.99/mois', pro_y:'Commencer — $199/an', monthly:'Mensuel', yearly:'Annuel' },
+  en: { ess_m:'Start — $9.99/month',    ess_y:'Start — $79/year',   pro_m:'Start — $24.99/month',   pro_y:'Start — $199/year',   monthly:'Monthly', yearly:'Yearly' },
+  es: { ess_m:'Comenzar — $9.99/mes',   ess_y:'Comenzar — $79/año', pro_m:'Comenzar — $24.99/mes',  pro_y:'Comenzar — $199/año', monthly:'Mensual', yearly:'Anual'  }
+};
+
+function toggleBilling(){
+  isYearly = !isYearly;
+  var dot = document.getElementById('toggle-dot');
+  var mLbl = document.getElementById('toggle-monthly-lbl');
+  var yLbl = document.getElementById('toggle-yearly-lbl');
+  var p = planPrices[currentLang] || planPrices.fr;
+
+  dot.style.transform = isYearly ? 'translateX(22px)' : 'translateX(0)';
+  mLbl.style.color = isYearly ? 'rgba(255,255,255,.5)' : '#fff';
+  mLbl.style.fontWeight = isYearly ? '400' : '600';
+  yLbl.querySelector('span:first-child') || (yLbl.childNodes[0].textContent = p.yearly+' ');
+
+  // Mettre à jour les boutons Stripe
+  var essBtn = document.querySelector('[data-stripe="ess"]');
+  var proBtn = document.querySelector('[data-stripe="pro"]');
+  if(essBtn){ essBtn.href = isYearly ? stripeLinks.ess.yearly : stripeLinks.ess.monthly; essBtn.textContent = isYearly ? p.ess_y : p.ess_m; }
+  if(proBtn){ proBtn.href = isYearly ? stripeLinks.pro.yearly : stripeLinks.pro.monthly; proBtn.textContent = isYearly ? p.pro_y : p.pro_m; }
+}
+
+// â”€â”€ MEGA MENU — gestion robuste (hover avec délai + clic) â”€â”€â”€â”€â”€â”€â”€â”€
+document.querySelectorAll('.nav-item').forEach(function(item){
+  var menu = item.querySelector('.mega-menu');
+  var link = item.querySelector('.nav-link');
+  if(!menu || !link) return;
+
+  var closeTimer = null;
+
+  function openMenu(){
+    if(closeTimer) clearTimeout(closeTimer);
+    document.querySelectorAll('.mega-menu').forEach(function(m){
+      if(m !== menu){ m.style.opacity='0'; m.style.visibility='hidden'; }
+    });
+    menu.style.opacity = '1';
+    menu.style.visibility = 'visible';
+    menu.style.transform = 'translateX(-50%) translateY(0)';
+    link.classList.add('active');
+  }
+
+  function scheduleClose(){
+    closeTimer = setTimeout(function(){
+      menu.style.opacity = '0';
+      menu.style.visibility = 'hidden';
+      link.classList.remove('active');
+    }, 250);
+  }
+
+  item.addEventListener('mouseenter', openMenu);
+  item.addEventListener('mouseleave', scheduleClose);
+  menu.addEventListener('mouseenter', function(){ if(closeTimer) clearTimeout(closeTimer); });
+  menu.addEventListener('mouseleave', scheduleClose);
+
+  // Clic pour mobile / fallback
+  link.addEventListener('click', function(e){
+    e.preventDefault();
+    var isOpen = menu.style.visibility === 'visible';
+    document.querySelectorAll('.mega-menu').forEach(function(m){
+      m.style.opacity='0'; m.style.visibility='hidden';
+    });
+    document.querySelectorAll('.nav-link').forEach(function(l){ l.classList.remove('active'); });
+    if(!isOpen) openMenu();
+  });
+});
+
+// Fermer si clic en dehors
+document.addEventListener('click', function(e){
+  if(!e.target.closest('.nav-item')){
+    document.querySelectorAll('.mega-menu').forEach(function(m){
+      m.style.opacity='0'; m.style.visibility='hidden';
+    });
+    document.querySelectorAll('.nav-link').forEach(function(l){ l.classList.remove('active'); });
+  }
+});
+
+// â”€â”€ INIT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+renderMedia('all');
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"5710770d6c4944de814fcc1a227142c3","r":1,"server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
+</body>
+</html>
